@@ -82,7 +82,12 @@
     function selectForSection(section) {
       if (section === activeSection) return;
       activeSection = section;
-      selectStudy(nextRandomStudy());
+      let next = nextRandomStudy();
+      if (next === activeStudy && lockedStudy === null && FEATURED_STUDIES.length > 1) {
+        const currentIndex = FEATURED_STUDIES.indexOf(activeStudy);
+        next = FEATURED_STUDIES[(currentIndex + 1) % FEATURED_STUDIES.length];
+      }
+      selectStudy(next);
     }
 
     function requestRender() {
