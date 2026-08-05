@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="One hundred seventy-two live particulate studies for the Leon Shi archive." />
+  <title>Field Lab — Leon Shi Archive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=20260726-5" />
+</head>
+<body>
+  <a class="skip-link" href="#study-controls">Skip to studies</a>
+  <main class="lab-shell">
+    <canvas id="field" aria-hidden="true"></canvas>
+    <div class="fallback" id="fallback" role="status" hidden>WebGL is unavailable in this browser.</div>
+
+    <header class="lab-header">
+      <a class="wordmark" href="../">Leon Shi / Archive</a>
+      <p>Field lab · 262,144 particles</p>
+    </header>
+
+    <section class="identity" aria-live="polite" aria-atomic="true">
+      <p class="study-number" id="study-number">Study 00 / 71</p>
+      <h1 id="study-name">Bilateral Bloom</h1>
+      <p class="study-family" id="study-family">Amorphous growth</p>
+    </section>
+
+    <nav class="transport" aria-label="Study navigation">
+      <button class="transport-button" id="previous" type="button" aria-label="Previous study">← <span>Previous</span></button>
+      <button class="copy-button" id="copy" type="button">Use this study</button>
+      <button class="transport-button" id="next" type="button" aria-label="Next study"><span>Next</span> →</button>
+    </nav>
+
+    <aside class="index" id="study-controls" aria-label="All studies">
+      <button class="index-toggle" id="index-toggle" type="button" aria-expanded="false" aria-controls="study-index">
+        <span>Study index</span><span aria-hidden="true">＋</span>
+      </button>
+      <div class="study-index" id="study-index"></div>
+    </aside>
+
+    <p class="hint">Move pointer to bend the field · Use ← → to compare</p>
+  </main>
+  <script src="renderer.js?v=20260726-14" defer></script>
+  <script src="lab.js?v=20260726-14" defer></script>
+</body>
+</html>

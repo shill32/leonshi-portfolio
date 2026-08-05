@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="How Leon Shi generated the procedural drifts in the museum with one shared WebGL renderer." />
+  <title>How I generated the drifts — Leon Shi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=20260728-3" />
+</head>
+<body data-refresh="15000">
+  <header class="site-header">
+    <a class="wordmark" href="../">Leon Shi</a>
+    <nav aria-label="Article navigation">
+      <a href="../lab/">Lab</a>
+      <a href="../hyper/">Review</a>
+      <a href="../">Museum</a>
+    </nav>
+  </header>
+
+  <main class="article">
+    <p class="article-kicker">Technical note · July 2026</p>
+    <h1>How I generated the drifts</h1>
+    <p class="article-dek">One point field, one renderer, and a collection of drifts generated in the shader.</p>
+
+    <div class="article-body">
+      <p>The animation began as a lab. I wanted motion that felt drawn: dark particles on paper, enough depth to suggest volume, and no color competing with the work.</p>
+
+      <h2>The point field</h2>
+      <p>Each frame draws 262,144 points. The browser uploads one index per point; the vertex shader turns that index into a position. There are no stored meshes. Each drift is an equation evaluated on the GPU.</p>
+      <p>That constraint shaped the look. The same field can resolve as a tesseract, folded membrane, manifold, molecular chain, or amorphous body. Depth changes point size, opacity, and tone. The fragment shader softens each point into a small grain of ink.</p>
+
+      <h2>One renderer</h2>
+      <p>The lab, the hyper review, this note, and the museum all call the same renderer. A drift selected in the lab is the exact drift that appears elsewhere. Keeping one implementation eliminated inconsistencies from approximate ports.</p>
+      <p>The museum changes only presentation: it increases scale and density, then reduces both for drifts that become too heavy at that setting.</p>
+
+      <h2>Motion and input</h2>
+      <p>Scroll selects a new drift. The shader blends the old and new positions with eased interpolation, so one geometry passes through another instead of cutting between scenes. Pointer movement adds a local tangential force measured inside the canvas bounds.</p>
+      <p>The renderer pauses when the page is hidden, limits pixel density, and respects reduced-motion preferences. On smaller screens, the same field remains interactive without changing the drift itself.</p>
+
+      <h2>Curation</h2>
+      <p>The broad archive was useful for finding families, but not every generated drift belonged in the museum. Inflating vesicles and dividing amoebas were cut. The retained collection favors structures with depth, asymmetry, and a clear silhouette.</p>
+      <p>The work is still procedural, but the selection is deliberate. The renderer supplies variation; the museum keeps only the drifts worth looking at again.</p>
+    </div>
+
+    <footer class="article-footer">
+      <p>Explore the field</p>
+      <a href="../lab/">Open the animation lab ↗</a>
+      <a href="../hyper/">Open the retained review ↗</a>
+      <a href="../">Return to the museum ↗</a>
+    </footer>
+  </main>
+
+  <figure class="note-field">
+    <canvas id="note-field" data-drift="202" aria-hidden="true"></canvas>
+    <figcaption>Brane fold 01</figcaption>
+  </figure>
+  <script src="../lab/renderer.js?v=20260726-14"></script>
+  <script src="field.js?v=20260728-4"></script>
+</body>
+</html>

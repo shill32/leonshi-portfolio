@@ -1,0 +1,754 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Leon Shi builds systems for product investment, experimentation, markets, and scientific search." />
+  <title>Leon Shi | Technical profile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500;600&family=Onest:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --mineral: #f3f5ef;
+      --surface: #e9ede6;
+      --ink: #19202a;
+      --ink-soft: #59616a;
+      --line: #c9cec7;
+      --ultramarine: #2448d8;
+      --rust: #ae4b31;
+      --cyan: #008f9a;
+      --focus: #7b321f;
+      --font-body: "Onest", sans-serif;
+      --font-data: "Azeret Mono", monospace;
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-5: 1.5rem;
+      --space-6: 2rem;
+      --space-7: 3rem;
+      --space-8: 4rem;
+      --space-9: 6rem;
+      --radius-sm: 0.25rem;
+      --max-width: 90rem;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      background: var(--mineral);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      background: var(--mineral);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.55;
+      text-rendering: optimizeLegibility;
+    }
+
+    button, a { font: inherit; }
+    a { color: inherit; }
+    ::selection { background: var(--ultramarine); color: var(--mineral); }
+    :focus-visible { outline: 0.1875rem solid var(--focus); outline-offset: var(--space-1); }
+
+    .shell {
+      width: min(100%, var(--max-width));
+      margin-inline: auto;
+      border-inline: 1px solid var(--line);
+    }
+
+    .utility {
+      font-family: var(--font-data);
+      font-size: 0.6875rem;
+      letter-spacing: 0.08em;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+
+    .masthead {
+      min-height: var(--space-9);
+      padding-inline: clamp(var(--space-4), 4vw, var(--space-7));
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .masthead__name { font-weight: 600; }
+    .masthead__index { color: var(--ultramarine); }
+    .masthead__nav { justify-self: end; }
+    .masthead__nav a { text-decoration-thickness: 1px; text-underline-offset: var(--space-2); }
+
+    .intro {
+      display: grid;
+      grid-template-columns: minmax(0, 0.94fr) minmax(25rem, 1.06fr);
+      min-height: 42rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .intro__copy {
+      padding: clamp(var(--space-7), 8vw, var(--space-9)) clamp(var(--space-4), 6vw, var(--space-8));
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-width: 0;
+    }
+
+    .intro__marker {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-3);
+      color: var(--ink-soft);
+    }
+
+    .intro__marker::before {
+      content: "";
+      width: var(--space-5);
+      height: 1px;
+      background: var(--rust);
+    }
+
+    h1 {
+      max-width: 13ch;
+      margin: var(--space-7) 0 var(--space-5);
+      font-size: clamp(2.75rem, 6vw, 6.25rem);
+      font-weight: 500;
+      letter-spacing: -0.055em;
+      line-height: 0.98;
+    }
+
+    .intro__lede {
+      max-width: 37rem;
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: clamp(1.0625rem, 1.6vw, 1.375rem);
+      line-height: 1.5;
+    }
+
+    .intro__context {
+      max-width: 35rem;
+      margin: var(--space-8) 0 0;
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--line);
+      color: var(--ink-soft);
+      font-size: 0.875rem;
+    }
+
+    .spectrum {
+      position: relative;
+      min-width: 0;
+      min-height: 42rem;
+      overflow: hidden;
+      border-left: 1px solid var(--line);
+      background: var(--surface);
+      isolation: isolate;
+    }
+
+    .spectrum canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .spectrum__axis-x,
+    .spectrum__axis-y {
+      position: absolute;
+      z-index: 1;
+      color: var(--ink-soft);
+      pointer-events: none;
+    }
+
+    .spectrum__axis-x { right: var(--space-5); bottom: var(--space-4); }
+    .spectrum__axis-y {
+      top: var(--space-5);
+      left: var(--space-4);
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+
+    .spectrum__legend {
+      position: absolute;
+      z-index: 1;
+      top: var(--space-5);
+      right: var(--space-5);
+      margin: 0;
+      padding: var(--space-3) var(--space-4);
+      border: 1px solid var(--line);
+      background: var(--mineral);
+      transition: border-color 360ms var(--ease);
+    }
+
+    .spectrum__legend span {
+      display: block;
+      margin-top: var(--space-1);
+      color: var(--ink-soft);
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .section-head {
+      padding: var(--space-5) clamp(var(--space-4), 4vw, var(--space-7));
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-5);
+      align-items: baseline;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-head h2 { margin: 0; font-size: 1rem; font-weight: 600; }
+    .section-head p { margin: 0; color: var(--ink-soft); font-size: 0.8125rem; }
+
+    .workbench {
+      display: grid;
+      grid-template-columns: minmax(17rem, 0.36fr) minmax(0, 0.64fr);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .project-tabs {
+      border-right: 1px solid var(--line);
+    }
+
+    .project-tab {
+      width: 100%;
+      min-height: 6.75rem;
+      padding: var(--space-5) clamp(var(--space-4), 4vw, var(--space-7));
+      display: grid;
+      grid-template-columns: 2.25rem 1fr auto;
+      gap: var(--space-3);
+      align-items: start;
+      border: 0;
+      border-bottom: 1px solid var(--line);
+      background: transparent;
+      color: var(--ink-soft);
+      cursor: pointer;
+      text-align: left;
+      transition: background-color 240ms var(--ease), color 240ms var(--ease);
+    }
+
+    .project-tab:last-child { border-bottom: 0; }
+    .project-tab:hover { background: var(--surface); color: var(--ink); }
+    .project-tab[aria-selected="true"] { background: var(--ink); color: var(--mineral); }
+
+    .project-tab__number {
+      color: var(--cyan);
+      font-family: var(--font-data);
+      font-size: 0.6875rem;
+    }
+
+    .project-tab[aria-selected="true"] .project-tab__number { color: var(--project-color, var(--cyan)); }
+    .project-tab__title { font-weight: 500; line-height: 1.3; }
+    .project-tab__domain {
+      align-self: end;
+      font-family: var(--font-data);
+      font-size: 0.625rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .project-tab__signal {
+      width: var(--space-2);
+      height: var(--space-2);
+      margin-top: var(--space-1);
+      border: 1px solid currentColor;
+      border-radius: 50%;
+    }
+
+    .project-tab[aria-selected="true"] .project-tab__signal {
+      border-color: var(--project-color, var(--cyan));
+      background: var(--project-color, var(--cyan));
+    }
+
+    .project-panel {
+      min-width: 0;
+      padding: clamp(var(--space-7), 7vw, var(--space-9)) clamp(var(--space-4), 7vw, var(--space-9));
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: var(--mineral);
+    }
+
+    .project-panel__domain {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      color: var(--ink-soft);
+    }
+
+    .project-panel__domain::before {
+      content: "";
+      width: var(--space-5);
+      height: var(--space-1);
+      background: var(--active-color, var(--ultramarine));
+    }
+
+    .project-panel h3 {
+      max-width: 16ch;
+      margin: var(--space-5) 0 var(--space-6);
+      font-size: clamp(2rem, 4.6vw, 4.5rem);
+      font-weight: 500;
+      letter-spacing: -0.045em;
+      line-height: 1.02;
+    }
+
+    .project-panel__summary {
+      max-width: 39rem;
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: clamp(1rem, 1.5vw, 1.1875rem);
+    }
+
+    .project-panel__foot {
+      margin-top: var(--space-8);
+      padding-top: var(--space-4);
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-5);
+      align-items: end;
+      border-top: 1px solid var(--line);
+    }
+
+    .project-panel__note { max-width: 28rem; margin: 0; font-size: 0.8125rem; }
+    .project-panel__link { font-family: var(--font-data); font-size: 0.6875rem; text-underline-offset: var(--space-2); white-space: nowrap; }
+    .project-panel__link[hidden] { display: none; }
+
+    .influence {
+      display: grid;
+      grid-template-columns: minmax(15rem, 0.36fr) minmax(0, 0.64fr);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .influence__label {
+      padding: clamp(var(--space-7), 6vw, var(--space-8)) clamp(var(--space-4), 4vw, var(--space-7));
+      border-right: 1px solid var(--line);
+      color: var(--rust);
+    }
+
+    .influence__body {
+      padding: clamp(var(--space-7), 6vw, var(--space-8)) clamp(var(--space-4), 7vw, var(--space-9));
+    }
+
+    .influence__body p {
+      max-width: 48rem;
+      margin: 0;
+      font-size: clamp(1.375rem, 3vw, 2.5rem);
+      letter-spacing: -0.025em;
+      line-height: 1.25;
+    }
+
+    .influence__body p + p {
+      max-width: 40rem;
+      margin-top: var(--space-6);
+      color: var(--ink-soft);
+      font-size: 1rem;
+      letter-spacing: 0;
+      line-height: 1.55;
+    }
+
+    .closing {
+      min-height: 25rem;
+      padding: clamp(var(--space-8), 9vw, var(--space-9)) clamp(var(--space-4), 7vw, var(--space-9)) var(--space-6);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .closing h2 {
+      max-width: 20ch;
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 4.75rem);
+      font-weight: 500;
+      letter-spacing: -0.05em;
+      line-height: 1.05;
+    }
+
+    .closing__footer {
+      margin-top: var(--space-8);
+      padding-top: var(--space-4);
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-4);
+      border-top: 1px solid var(--line);
+      color: var(--ink-soft);
+    }
+
+    @media (max-width: 52rem) {
+      .masthead { grid-template-columns: 1fr auto; }
+      .masthead__index { display: none; }
+      .intro { grid-template-columns: 1fr; }
+      .intro__copy { min-height: 35rem; }
+      .spectrum { min-height: 31rem; border-top: 1px solid var(--line); border-left: 0; }
+      .workbench { grid-template-columns: 1fr; }
+      .project-tabs {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .project-tab:nth-child(odd) { border-right: 1px solid var(--line); }
+      .project-tab:nth-last-child(-n + 2) { border-bottom: 0; }
+      .project-panel { min-height: 34rem; }
+      .influence { grid-template-columns: 1fr; }
+      .influence__label { border-right: 0; border-bottom: 1px solid var(--line); }
+    }
+
+    @media (max-width: 30rem) {
+      .shell { border-inline: 0; }
+      .masthead { min-height: var(--space-8); }
+      .masthead__nav { font-size: 0.625rem; }
+      .intro__copy { min-height: 32rem; }
+      h1 { font-size: clamp(2.625rem, 13vw, 3.75rem); }
+      .spectrum { min-height: 25rem; }
+      .spectrum__legend { top: var(--space-4); right: var(--space-4); }
+      .section-head { align-items: start; flex-direction: column; gap: var(--space-2); }
+      .project-tabs { grid-template-columns: 1fr; }
+      .project-tab,
+      .project-tab:nth-child(odd),
+      .project-tab:nth-last-child(-n + 2) { border-right: 0; border-bottom: 1px solid var(--line); }
+      .project-tab:last-child { border-bottom: 0; }
+      .project-panel { min-height: 38rem; }
+      .project-panel__foot { align-items: start; flex-direction: column; }
+      .closing__footer { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="masthead">
+      <div class="masthead__name utility">Leon Shi</div>
+      <div class="masthead__index utility">Spectrum / technical profile</div>
+      <nav class="masthead__nav utility" aria-label="Primary navigation">
+        <a href="#selected-work">Selected work</a>
+      </nav>
+    </header>
+
+    <section class="intro" aria-labelledby="intro-title">
+      <div class="intro__copy">
+        <div>
+          <div class="intro__marker utility">Product analysis + computational systems</div>
+          <h1 id="intro-title">I build systems for product investment, experimentation, markets, and scientific search.</h1>
+          <p class="intro__lede">I own the path from analysis and model design to software that technical teams can inspect and use.</p>
+        </div>
+        <p class="intro__context">Current work spans recurring product return-on-investment review, synthetic experimentation, live options research, and computational physics.</p>
+      </div>
+
+      <figure class="spectrum" aria-labelledby="spectrum-caption">
+        <canvas id="spectral-field" aria-hidden="true"></canvas>
+        <div class="spectrum__axis-y utility">Parameter β</div>
+        <div class="spectrum__axis-x utility">Parameter α</div>
+        <figcaption id="spectrum-caption" class="spectrum__legend utility">
+          Active field / 01
+          <span>Experimentation</span>
+        </figcaption>
+      </figure>
+    </section>
+
+    <section id="selected-work" aria-labelledby="work-heading">
+      <div class="section-head">
+        <h2 id="work-heading">Selected work</h2>
+        <p class="utility">Choose a project to tune the field</p>
+      </div>
+
+      <div class="workbench">
+        <div class="project-tabs" role="tablist" aria-label="Selected projects" aria-orientation="vertical">
+          <button class="project-tab" id="tab-experimentation" role="tab" aria-selected="true" aria-controls="project-panel" tabindex="0" data-project="experimentation" style="--project-color: var(--ultramarine)">
+            <span class="project-tab__number">01</span>
+            <span>
+              <span class="project-tab__title">Product experimentation</span>
+              <span class="project-tab__domain">Decision systems</span>
+            </span>
+            <span class="project-tab__signal" aria-hidden="true"></span>
+          </button>
+          <button class="project-tab" id="tab-synthetic" role="tab" aria-selected="false" aria-controls="project-panel" tabindex="-1" data-project="synthetic" style="--project-color: var(--rust)">
+            <span class="project-tab__number">02</span>
+            <span>
+              <span class="project-tab__title">Synthetic experiments</span>
+              <span class="project-tab__domain">Agent systems</span>
+            </span>
+            <span class="project-tab__signal" aria-hidden="true"></span>
+          </button>
+          <button class="project-tab" id="tab-cronos" role="tab" aria-selected="false" aria-controls="project-panel" tabindex="-1" data-project="cronos" style="--project-color: var(--cyan)">
+            <span class="project-tab__number">03</span>
+            <span>
+              <span class="project-tab__title">Cronos</span>
+              <span class="project-tab__domain">Options research</span>
+            </span>
+            <span class="project-tab__signal" aria-hidden="true"></span>
+          </button>
+          <button class="project-tab" id="tab-physics" role="tab" aria-selected="false" aria-controls="project-panel" tabindex="-1" data-project="physics" style="--project-color: var(--rust)">
+            <span class="project-tab__number">04</span>
+            <span>
+              <span class="project-tab__title">Scientific parameter search</span>
+              <span class="project-tab__domain">Computational physics</span>
+            </span>
+            <span class="project-tab__signal" aria-hidden="true"></span>
+          </button>
+        </div>
+
+        <article class="project-panel" id="project-panel" role="tabpanel" aria-live="polite" aria-labelledby="tab-experimentation" tabindex="0">
+          <div>
+            <div class="project-panel__domain utility" id="project-domain">Decision systems</div>
+            <h3 id="project-title">Product experimentation</h3>
+            <p class="project-panel__summary" id="project-summary">Own analysis for a recurring Audible experimentation and product return-on-investment review with the Chief Product &amp; Analytics Officer.</p>
+          </div>
+          <div class="project-panel__foot">
+            <p class="project-panel__note" id="project-note">Connects experiment evidence to product investment decisions without relying on confidential dollar claims.</p>
+            <a class="project-panel__link" id="project-link" href="https://trycronos.com" target="_blank" rel="noreferrer" hidden>Visit trycronos.com ↗</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="influence" aria-labelledby="influence-heading">
+      <h2 class="influence__label utility" id="influence-heading">Organizational influence</h2>
+      <div class="influence__body">
+        <p>I lead a recurring executive review, build the tools behind it, and train teammates on agent-assisted workflows.</p>
+        <p>The work stays inspectable: assumptions, model outputs, and implementation decisions can be reviewed.</p>
+      </div>
+    </section>
+
+    <footer class="closing">
+      <h2>Interested in technical teams building measurable products in difficult domains.</h2>
+      <div class="closing__footer utility">
+        <span>Leon Shi</span>
+        <span>Product systems / markets / science</span>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    (() => {
+      const canvas = document.getElementById("spectral-field");
+      const context = canvas.getContext("2d", { alpha: false });
+      const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
+      const panel = document.getElementById("project-panel");
+      const title = document.getElementById("project-title");
+      const domain = document.getElementById("project-domain");
+      const summary = document.getElementById("project-summary");
+      const note = document.getElementById("project-note");
+      const link = document.getElementById("project-link");
+      const legend = document.getElementById("spectrum-caption");
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+      const projects = {
+        experimentation: {
+          number: "01",
+          title: "Product experimentation",
+          domain: "Decision systems",
+          summary: "Own analysis for a recurring Audible experimentation and product return-on-investment review with the Chief Product & Analytics Officer.",
+          note: "Connects experiment evidence to product investment decisions without relying on confidential dollar claims.",
+          color: "#2448d8",
+          frequencies: [3, 2],
+          phase: 0.7,
+          spread: 0.17
+        },
+        synthetic: {
+          number: "02",
+          title: "Synthetic experiments",
+          domain: "Agent systems",
+          summary: "Built an agent-based synthetic experimentation system and graded its output against prior web experiments.",
+          note: "The comparison anchors simulated behavior to observed experiment outcomes.",
+          color: "#ae4b31",
+          frequencies: [5, 4],
+          phase: 1.2,
+          spread: 0.12
+        },
+        cronos: {
+          number: "03",
+          title: "Cronos",
+          domain: "Options research",
+          summary: "Built a live options research product for exploring market structure and testing trade ideas.",
+          note: "A working product for research under changing market conditions.",
+          color: "#008f9a",
+          frequencies: [4, 3],
+          phase: 0.2,
+          spread: 0.2,
+          href: "https://trycronos.com"
+        },
+        physics: {
+          number: "04",
+          title: "Scientific parameter search",
+          domain: "Computational physics",
+          summary: "Built a research prototype for searching topological-material and dark-matter parameter spaces.",
+          note: "Turns a high-dimensional physical search problem into an explorable computational workflow.",
+          color: "#ae4b31",
+          frequencies: [7, 5],
+          phase: 1.55,
+          spread: 0.09
+        }
+      };
+
+      let activeKey = "experimentation";
+      let frame = 0;
+      let animationFrame = 0;
+      let width = 0;
+      let height = 0;
+      let pixelRatio = 1;
+
+      function resizeCanvas() {
+        const bounds = canvas.getBoundingClientRect();
+        pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+        width = Math.max(1, Math.round(bounds.width));
+        height = Math.max(1, Math.round(bounds.height));
+        canvas.width = Math.round(width * pixelRatio);
+        canvas.height = Math.round(height * pixelRatio);
+        context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+        draw(reducedMotion.matches ? 0 : frame);
+      }
+
+      function mulberry32(seed) {
+        return () => {
+          let value = seed += 0x6D2B79F5;
+          value = Math.imul(value ^ value >>> 15, value | 1);
+          value ^= value + Math.imul(value ^ value >>> 7, value | 61);
+          return ((value ^ value >>> 14) >>> 0) / 4294967296;
+        };
+      }
+
+      function hexToRgb(hex) {
+        const value = Number.parseInt(hex.slice(1), 16);
+        return [(value >> 16) & 255, (value >> 8) & 255, value & 255];
+      }
+
+      function draw(tick) {
+        const project = projects[activeKey];
+        const [red, green, blue] = hexToRgb(project.color);
+        const random = mulberry32(activeKey.length * 997 + 31);
+        const centerX = width * 0.5;
+        const centerY = height * 0.51;
+        const radiusX = width * 0.39;
+        const radiusY = height * 0.34;
+        const time = tick * 0.0032;
+        const [frequencyX, frequencyY] = project.frequencies;
+
+        context.fillStyle = "#e9ede6";
+        context.fillRect(0, 0, width, height);
+
+        context.strokeStyle = "rgba(25, 32, 42, 0.12)";
+        context.lineWidth = 1;
+        context.beginPath();
+        context.moveTo(width * 0.08, centerY);
+        context.lineTo(width * 0.92, centerY);
+        context.moveTo(centerX, height * 0.08);
+        context.lineTo(centerX, height * 0.92);
+        context.stroke();
+
+        context.fillStyle = `rgba(${red}, ${green}, ${blue}, 0.13)`;
+        const samples = width < 480 ? 1400 : 2600;
+        for (let index = 0; index < samples; index += 1) {
+          const angle = random() * Math.PI * 2;
+          const jitter = (random() - 0.5) * project.spread;
+          const x = centerX + Math.sin(frequencyX * angle + project.phase + time) * radiusX * (0.82 + jitter);
+          const y = centerY + Math.sin(frequencyY * angle + time * 0.72) * radiusY * (0.82 + jitter);
+          const size = random() > 0.94 ? 1.4 : 0.75;
+          context.fillRect(x, y, size, size);
+        }
+
+        context.strokeStyle = `rgba(${red}, ${green}, ${blue}, 0.82)`;
+        context.lineWidth = 1.35;
+        context.beginPath();
+        const tracePoints = 720;
+        for (let index = 0; index <= tracePoints; index += 1) {
+          const angle = (index / tracePoints) * Math.PI * 2;
+          const x = centerX + Math.sin(frequencyX * angle + project.phase + time) * radiusX * 0.82;
+          const y = centerY + Math.sin(frequencyY * angle + time * 0.72) * radiusY * 0.82;
+          if (index === 0) context.moveTo(x, y);
+          else context.lineTo(x, y);
+        }
+        context.stroke();
+
+        context.fillStyle = project.color;
+        const cursorAngle = (time * 0.55) % (Math.PI * 2);
+        const cursorX = centerX + Math.sin(frequencyX * cursorAngle + project.phase + time) * radiusX * 0.82;
+        const cursorY = centerY + Math.sin(frequencyY * cursorAngle + time * 0.72) * radiusY * 0.82;
+        context.beginPath();
+        context.arc(cursorX, cursorY, 3, 0, Math.PI * 2);
+        context.fill();
+      }
+
+      function animate() {
+        frame += 1;
+        draw(frame);
+        animationFrame = window.requestAnimationFrame(animate);
+      }
+
+      function updateMotion() {
+        window.cancelAnimationFrame(animationFrame);
+        animationFrame = 0;
+        if (reducedMotion.matches) {
+          frame = 0;
+          draw(0);
+        } else {
+          animationFrame = window.requestAnimationFrame(animate);
+        }
+      }
+
+      function selectProject(tab, moveFocus = false) {
+        activeKey = tab.dataset.project;
+        const project = projects[activeKey];
+
+        tabs.forEach((item) => {
+          const selected = item === tab;
+          item.setAttribute("aria-selected", String(selected));
+          item.tabIndex = selected ? 0 : -1;
+        });
+
+        panel.setAttribute("aria-labelledby", tab.id);
+        panel.style.setProperty("--active-color", project.color);
+        title.textContent = project.title;
+        domain.textContent = project.domain;
+        summary.textContent = project.summary;
+        note.textContent = project.note;
+        legend.firstChild.textContent = `Active field / ${project.number} `;
+        legend.querySelector("span").textContent = project.title;
+        legend.style.borderColor = project.color;
+
+        if (project.href) {
+          link.href = project.href;
+          link.hidden = false;
+        } else {
+          link.hidden = true;
+        }
+
+        if (moveFocus) tab.focus();
+        draw(reducedMotion.matches ? 0 : frame);
+      }
+
+      tabs.forEach((tab, index) => {
+        tab.addEventListener("click", () => selectProject(tab));
+        tab.addEventListener("keydown", (event) => {
+          let nextIndex = index;
+          if (event.key === "ArrowDown" || event.key === "ArrowRight") nextIndex = (index + 1) % tabs.length;
+          else if (event.key === "ArrowUp" || event.key === "ArrowLeft") nextIndex = (index - 1 + tabs.length) % tabs.length;
+          else if (event.key === "Home") nextIndex = 0;
+          else if (event.key === "End") nextIndex = tabs.length - 1;
+          else return;
+          event.preventDefault();
+          selectProject(tabs[nextIndex], true);
+        });
+      });
+
+      const resizeObserver = new ResizeObserver(resizeCanvas);
+      resizeObserver.observe(canvas);
+      reducedMotion.addEventListener("change", updateMotion);
+      selectProject(tabs[0]);
+      resizeCanvas();
+      updateMotion();
+    })();
+  </script>
+</body>
+</html>

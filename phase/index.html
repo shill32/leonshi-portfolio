@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Leon Shi builds systems for product investment, experimentation, markets, and scientific search." />
+  <title>Leon Shi | Systems, experiments, and research</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #f7f7f4;
+      --ink: #171815;
+      --muted: #686b65;
+      --line: #d9dad4;
+      --accent: #7a8177;
+      --point: rgba(23, 24, 21, 0.58);
+      --point-faint: rgba(23, 24, 21, 0.14);
+      --serif: "Newsreader", Georgia, serif;
+      --mono: "DM Mono", "Courier New", monospace;
+      --space-1: 0.5rem;
+      --space-2: 1rem;
+      --space-3: 1.5rem;
+      --space-4: 2rem;
+      --space-6: 3rem;
+      --space-8: 4rem;
+      --space-12: 6rem;
+      --space-16: 8rem;
+      --page: clamp(1.25rem, 4vw, 4.5rem);
+      --measure: 64rem;
+      --speed: 180ms;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      background: var(--paper);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      overflow-x: clip;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--serif);
+      font-size: 1.125rem;
+      line-height: 1.45;
+      text-rendering: optimizeLegibility;
+    }
+
+    ::selection {
+      background: var(--accent);
+      color: var(--paper);
+    }
+
+    a {
+      color: inherit;
+      text-decoration-color: var(--accent);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.25em;
+    }
+
+    a:hover { text-decoration-thickness: 2px; }
+
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 0.3rem;
+    }
+
+    .skip-link {
+      position: fixed;
+      z-index: 10;
+      top: var(--space-2);
+      left: var(--space-2);
+      padding: var(--space-1) var(--space-2);
+      background: var(--ink);
+      color: var(--paper);
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      transform: translateY(-200%);
+      transition: transform var(--speed) ease-out;
+    }
+
+    .skip-link:focus { transform: translateY(0); }
+
+    .frame {
+      width: min(100%, 112rem);
+      margin-inline: auto;
+      padding-inline: var(--page);
+    }
+
+    .utility {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      font-weight: 300;
+      letter-spacing: 0.07em;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+
+    .site-header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      min-height: var(--space-8);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .site-header > a {
+      width: fit-content;
+      text-decoration: none;
+    }
+
+    .site-header nav {
+      display: flex;
+      gap: var(--space-4);
+    }
+
+    .site-header nav a { text-decoration: none; }
+    .site-header nav a:hover { text-decoration: underline; }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(11rem, 0.32fr) minmax(0, 0.68fr);
+      min-height: 38rem;
+      padding-block: var(--space-12) var(--space-8);
+    }
+
+    .hero__profile {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding-right: var(--space-4);
+    }
+
+    .hero__profile p {
+      max-width: 15rem;
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .hero h1 {
+      align-self: end;
+      max-width: 72rem;
+      margin: 0;
+      font-size: clamp(3rem, 7.1vw, 8.4rem);
+      font-weight: 400;
+      letter-spacing: -0.055em;
+      line-height: 0.91;
+    }
+
+    .portrait {
+      position: relative;
+      width: calc(100% - var(--page));
+      height: clamp(28rem, 67vw, 58rem);
+      margin: 0 0 var(--space-16) auto;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      overflow: hidden;
+    }
+
+    .portrait canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .portrait figcaption {
+      position: absolute;
+      z-index: 1;
+      top: var(--space-2);
+      left: var(--space-2);
+      display: flex;
+      gap: var(--space-4);
+      pointer-events: none;
+      color: var(--muted);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(11rem, 0.32fr) minmax(0, 0.68fr);
+      padding-bottom: var(--space-3);
+      border-bottom: 1px solid var(--ink);
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(1.65rem, 2.3vw, 2.5rem);
+      font-weight: 400;
+      letter-spacing: -0.025em;
+    }
+
+    .work-list { margin: 0; }
+
+    .project {
+      display: grid;
+      grid-template-columns: minmax(11rem, 0.32fr) minmax(0, 0.68fr);
+      padding-block: var(--space-6);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .project dt {
+      padding-right: var(--space-4);
+      color: var(--muted);
+    }
+
+    .project dd {
+      display: grid;
+      grid-template-columns: minmax(12rem, 0.42fr) minmax(0, 0.58fr);
+      gap: var(--space-6);
+      margin: 0;
+    }
+
+    .project h3 {
+      margin: 0;
+      font-size: clamp(1.45rem, 2.2vw, 2.35rem);
+      font-weight: 400;
+      letter-spacing: -0.025em;
+      line-height: 1.08;
+    }
+
+    .project h3 a {
+      text-decoration-thickness: 1px;
+      text-decoration-color: var(--line);
+    }
+
+    .project p {
+      max-width: 38rem;
+      margin: 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .project p + p { margin-top: var(--space-2); }
+
+    .influence {
+      display: grid;
+      grid-template-columns: minmax(11rem, 0.32fr) minmax(0, 0.68fr);
+      padding-block: var(--space-16);
+    }
+
+    .influence__copy {
+      max-width: var(--measure);
+    }
+
+    .influence h2 {
+      margin: 0 0 var(--space-4);
+      font-size: clamp(2.2rem, 4.5vw, 5.2rem);
+      font-weight: 400;
+      letter-spacing: -0.045em;
+      line-height: 0.98;
+    }
+
+    .influence p {
+      max-width: 42rem;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .contact {
+      display: grid;
+      grid-template-columns: minmax(11rem, 0.32fr) minmax(0, 0.68fr);
+      padding-block: var(--space-8) var(--space-12);
+      border-top: 1px solid var(--ink);
+    }
+
+    .contact p {
+      max-width: 38rem;
+      margin: 0;
+      font-size: clamp(1.4rem, 2.3vw, 2.35rem);
+      line-height: 1.2;
+    }
+
+    .contact small {
+      display: block;
+      margin-top: var(--space-8);
+      color: var(--muted);
+    }
+
+    @media (max-width: 48rem) {
+      body { font-size: 1rem; }
+
+      .site-header {
+        min-height: var(--space-6);
+      }
+
+      .site-header nav { gap: var(--space-2); }
+      .site-header nav a:first-child { display: none; }
+
+      .hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding-block: var(--space-8) var(--space-6);
+      }
+
+      .hero__profile {
+        min-height: 9rem;
+        padding: 0;
+      }
+
+      .hero__profile p { margin-top: var(--space-6); }
+      .hero h1 { margin-top: var(--space-8); }
+
+      .portrait {
+        width: 100%;
+        height: 28rem;
+        margin-bottom: var(--space-12);
+      }
+
+      .portrait figcaption {
+        right: var(--space-2);
+        justify-content: space-between;
+      }
+
+      .section-head,
+      .project,
+      .influence,
+      .contact {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head { gap: var(--space-2); }
+      .project { gap: var(--space-3); }
+
+      .project dd {
+        grid-template-columns: 1fr;
+        gap: var(--space-2);
+      }
+
+      .influence { gap: var(--space-4); }
+      .contact { gap: var(--space-4); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+
+  <header class="site-header frame">
+    <a class="utility" href="#top" aria-label="Leon Shi, home">Leon Shi</a>
+    <nav class="utility" aria-label="Primary navigation">
+      <a href="#work">Work</a>
+      <a href="#influence">Influence</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="content">
+    <section class="hero frame" id="top" aria-labelledby="intro-title">
+      <div class="hero__profile">
+        <span class="utility">Product systems<br />Applied research</span>
+        <p>Builder working across executive decisions, production software, and computational research.</p>
+      </div>
+      <h1 id="intro-title">I build systems for product investment, experimentation, markets, and scientific search.</h1>
+    </section>
+
+    <figure class="portrait" aria-labelledby="portrait-caption">
+      <canvas id="phase-canvas" aria-hidden="true"></canvas>
+      <figcaption class="utility" id="portrait-caption">
+        <span>Phase portrait</span>
+        <span>Original flow system</span>
+      </figcaption>
+    </figure>
+
+    <section class="frame" id="work" aria-labelledby="work-title">
+      <header class="section-head">
+        <span class="utility">Selected work</span>
+        <h2 id="work-title">Systems in use and under study</h2>
+      </header>
+
+      <dl class="work-list">
+        <div class="project">
+          <dt class="utility">Product investment<br />Audible</dt>
+          <dd>
+            <h3>Experimentation and return-on-investment review</h3>
+            <p>Owns the recurring analysis used in a product return-on-investment and experimentation review with the Chief Product &amp; Analytics Officer. The work makes investment tradeoffs visible without exposing confidential dollar claims.</p>
+          </dd>
+        </div>
+
+        <div class="project">
+          <dt class="utility">Synthetic research<br />Internal system</dt>
+          <dd>
+            <h3>Agent-based synthetic experimentation</h3>
+            <p>Built a system that simulates diverse participant responses, then grades its reads against prior web experiments. The comparison keeps generated findings accountable to observed behavior.</p>
+          </dd>
+        </div>
+
+        <div class="project">
+          <dt class="utility">Options research<br />Live product</dt>
+          <dd>
+            <h3><a href="https://trycronos.com" target="_blank" rel="noreferrer">Cronos ↗</a></h3>
+            <p>Built an options research product for defining strategies, resolving contracts, and replaying portfolios against historical data. It is live at <a href="https://trycronos.com" target="_blank" rel="noreferrer">trycronos.com</a>.</p>
+          </dd>
+        </div>
+
+        <div class="project">
+          <dt class="utility">Computational physics<br />Research prototype</dt>
+          <dd>
+            <h3>Scientific parameter search</h3>
+            <p>Built a prototype that proposes candidate theories and tests them with numerical checks. Current work searches topological-material and dark-matter parameter spaces.</p>
+          </dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="influence frame" id="influence" aria-labelledby="influence-title">
+      <span class="utility">Organizational influence</span>
+      <div class="influence__copy">
+        <h2 id="influence-title">I build the tool and the operating process around it.</h2>
+        <p>The return-on-investment analysis now supports a recurring executive decision forum. I also train teammates to use agent-assisted workflows in their own work.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="contact frame" id="contact">
+    <span class="utility">Contact</span>
+    <div>
+      <p>If this work is relevant to what you are building, use the channel that brought you here.</p>
+      <small class="utility">Leon Shi · 2026</small>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const canvas = document.querySelector("#phase-canvas");
+      const context = canvas.getContext("2d");
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const particleCount = 2600;
+      const particles = new Float32Array(particleCount * 2);
+      let width = 0;
+      let height = 0;
+      let pixelRatio = 1;
+      let frame = 0;
+      let phase = 0;
+      let visible = false;
+      let lastTime = 0;
+
+      function seedParticles() {
+        for (let index = 0; index < particleCount; index += 1) {
+          const offset = index * 2;
+          const ring = Math.sqrt((index + 0.5) / particleCount);
+          const angle = index * 2.399963229728653;
+          particles[offset] = Math.cos(angle) * ring * 1.75;
+          particles[offset + 1] = Math.sin(angle) * ring * 1.35;
+        }
+      }
+
+      function resize() {
+        const bounds = canvas.getBoundingClientRect();
+        pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+        width = Math.max(1, bounds.width);
+        height = Math.max(1, bounds.height);
+        canvas.width = Math.round(width * pixelRatio);
+        canvas.height = Math.round(height * pixelRatio);
+        context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+        draw(true);
+      }
+
+      function resetParticle(offset, index) {
+        const angle = index * 2.399963229728653 + phase * 0.07;
+        const radius = 0.35 + ((index * 47) % 101) / 72;
+        particles[offset] = Math.cos(angle) * radius;
+        particles[offset + 1] = Math.sin(angle) * radius * 0.74;
+      }
+
+      function advance(step) {
+        const drift = Math.sin(phase * 0.23) * 0.28;
+        const fold = 0.82 + Math.cos(phase * 0.17) * 0.12;
+
+        for (let index = 0; index < particleCount; index += 1) {
+          const offset = index * 2;
+          const x = particles[offset];
+          const y = particles[offset + 1];
+          const dx = y - 0.31 * x * x * x + 0.18 * Math.sin(2.4 * y + drift);
+          const dy = -fold * x - 0.17 * y + 0.16 * Math.sin(1.8 * x - drift * 1.4);
+          const nextX = x + dx * step;
+          const nextY = y + dy * step;
+
+          if (nextX * nextX + nextY * nextY > 6.25) {
+            resetParticle(offset, index);
+          } else {
+            particles[offset] = nextX;
+            particles[offset + 1] = nextY;
+          }
+        }
+      }
+
+      function draw(staticFrame = false) {
+        context.clearRect(0, 0, width, height);
+        const styles = getComputedStyle(document.documentElement);
+        const point = styles.getPropertyValue("--point").trim();
+        const faint = styles.getPropertyValue("--point-faint").trim();
+        const scale = Math.min(width / 4.5, height / 3.25);
+        const originX = width * (width < 768 ? 0.52 : 0.47);
+        const originY = height * 0.52;
+
+        context.fillStyle = faint;
+        for (let index = 0; index < particleCount; index += 1) {
+          const offset = index * 2;
+          const x = originX + particles[offset] * scale;
+          const y = originY + particles[offset + 1] * scale;
+          context.fillRect(x, y, 1.8, 1.8);
+        }
+
+        context.fillStyle = point;
+        for (let index = 0; index < particleCount; index += 5) {
+          const offset = index * 2;
+          const x = originX + particles[offset] * scale;
+          const y = originY + particles[offset + 1] * scale;
+          context.fillRect(x, y, 1.2, 1.2);
+        }
+
+        if (staticFrame) return;
+      }
+
+      function animate(time) {
+        frame = 0;
+        if (!visible || reducedMotion.matches || document.hidden) return;
+        const elapsed = Math.min((time - lastTime) / 1000 || 0.016, 0.04);
+        lastTime = time;
+        phase += elapsed;
+        advance(elapsed * 0.31);
+        draw();
+        frame = requestAnimationFrame(animate);
+      }
+
+      function updatePlayback() {
+        if (frame) {
+          cancelAnimationFrame(frame);
+          frame = 0;
+        }
+        if (visible && !reducedMotion.matches && !document.hidden) {
+          lastTime = performance.now();
+          frame = requestAnimationFrame(animate);
+        } else {
+          draw(true);
+        }
+      }
+
+      seedParticles();
+      resize();
+      const resizeObserver = new ResizeObserver(resize);
+      resizeObserver.observe(canvas);
+
+      const visibilityObserver = new IntersectionObserver((entries) => {
+        visible = entries[0].isIntersecting;
+        updatePlayback();
+      }, { threshold: 0.01 });
+      visibilityObserver.observe(canvas);
+
+      document.addEventListener("visibilitychange", updatePlayback);
+      reducedMotion.addEventListener("change", updatePlayback);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio directions</title>
+  <style>
+    :root { color-scheme: light; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: #f2f2ef; color: #141414; }
+    header { padding: 20px 24px; display: flex; justify-content: space-between; border-bottom: 1px solid #bbb; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; }
+    main { display: grid; grid-template-columns: repeat(4, 1fr); min-height: calc(100vh - 57px); }
+    a { padding: 28px 24px; color: inherit; text-decoration: none; border-right: 1px solid #bbb; display: flex; flex-direction: column; justify-content: space-between; transition: background .15s, color .15s; }
+    a:last-child { border-right: 0; }
+    a:hover, a:focus-visible { background: #171717; color: #f5f5ef; outline: none; }
+    small { opacity: .6; }
+    h2 { margin: 12px 0; font: 500 clamp(34px, 4vw, 72px)/.9 ui-sans-serif, system-ui, sans-serif; letter-spacing: -.06em; }
+    p { max-width: 34ch; line-height: 1.5; font-size: 13px; }
+    span { font-size: 13px; text-decoration: underline; text-underline-offset: 4px; }
+    .featured { background: #e7e8e2; box-shadow: inset 0 3px #4057d6; }
+    @media (max-width: 720px) { main { grid-template-columns: 1fr; } a { min-height: 32vh; border-right: 0; border-bottom: 1px solid #bbb; } }
+  </style>
+</head>
+<body>
+  <header><span>Leon Shi / portfolio study</span><span>Four directions</span></header>
+  <main>
+    <a class="featured" href="/museum/"><div><small>01 / Digital museum</small><h2>Museum</h2><p>Phase-derived typography, a pencil portrait, collection rooms, and million-point moving images.</p></div><span>Open recommended direction</span></a>
+    <a href="/phase/"><div><small>02 / Monochrome study</small><h2>Phase</h2><p>Whitespace, direct profile copy, and a mathematical point-cloud portrait.</p></div><span>Open direction</span></a>
+    <a href="/spectrum/"><div><small>03 / Controlled color</small><h2>Spectrum</h2><p>A precise systems index with project-responsive spectral motion.</p></div><span>Open direction</span></a>
+    <a href="/field/"><div><small>04 / Deep color</small><h2>Field</h2><p>A continuous technical canvas with a reactive mathematical organism.</p></div><span>Open direction</span></a>
+  </main>
+</body>
+</html>

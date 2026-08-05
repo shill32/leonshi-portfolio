@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Leon Shi builds systems for product investment, experimentation, markets, and scientific search." />
+  <title>Leon Shi | Systems, experiments, and research</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --field: #183142;
+      --field-deep: #102634;
+      --warm: #f3eee4;
+      --warm-dim: #d9d4cb;
+      --ice: #a8d7e5;
+      --coral: #f18473;
+      --muted: #a9bbc2;
+      --line: rgba(217, 233, 237, 0.2);
+      --line-strong: rgba(217, 233, 237, 0.38);
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-6: 1.5rem;
+      --space-8: 2rem;
+      --space-12: 3rem;
+      --space-16: 4rem;
+      --space-24: 6rem;
+      --radius-sm: 0.125rem;
+      --content-pad: clamp(1.25rem, 4.5vw, 4.5rem);
+      --display: "Familjen Grotesk", "Arial Narrow", sans-serif;
+      --utility: "Spline Sans Mono", ui-monospace, monospace;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      background: var(--field);
+      color: var(--warm);
+      font-family: var(--display);
+      font-size: 1rem;
+      line-height: 1.55;
+      text-rendering: optimizeLegibility;
+    }
+    a { color: inherit; }
+    ::selection { background: var(--coral); color: var(--field-deep); }
+    :focus-visible {
+      outline: 0.1875rem solid var(--coral);
+      outline-offset: var(--space-1);
+      border-radius: var(--radius-sm);
+    }
+    .skip-link {
+      position: fixed;
+      top: var(--space-3);
+      left: var(--space-3);
+      z-index: 20;
+      padding: var(--space-2) var(--space-3);
+      translate: 0 -200%;
+      background: var(--warm);
+      color: var(--field-deep);
+      font: 500 0.75rem/1 var(--utility);
+    }
+    .skip-link:focus { translate: 0; }
+
+    .page {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(21rem, 2fr);
+      width: min(100%, 100rem);
+      margin: 0 auto;
+      border-inline: 1px solid var(--line);
+    }
+    .content {
+      position: relative;
+      z-index: 2;
+      min-width: 0;
+      border-right: 1px solid var(--line);
+      background: color-mix(in srgb, var(--field) 96%, transparent);
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      min-height: 4rem;
+      padding-inline: var(--content-pad);
+      border-bottom: 1px solid var(--line);
+      font: 500 0.7rem/1 var(--utility);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .brand { text-decoration: none; }
+    .nav { display: flex; gap: var(--space-6); }
+    .nav a {
+      color: var(--muted);
+      text-decoration: underline;
+      text-decoration-color: transparent;
+      text-underline-offset: var(--space-2);
+      transition: color 180ms var(--ease), text-decoration-color 180ms var(--ease);
+    }
+    .nav a:hover { color: var(--warm); text-decoration-color: var(--coral); }
+
+    .hero {
+      min-height: min(46rem, calc(100svh - 4rem));
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: clamp(4rem, 10vh, 7.5rem) var(--content-pad) var(--space-12);
+      border-bottom: 1px solid var(--line);
+    }
+    .kicker, .section-label, .project__meta, .field-label {
+      margin: 0;
+      color: var(--ice);
+      font: 500 0.68rem/1.4 var(--utility);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+    .hero h1 {
+      max-width: 46rem;
+      margin: var(--space-6) 0;
+      font-size: clamp(3.5rem, 7.1vw, 7.75rem);
+      font-weight: 500;
+      letter-spacing: -0.065em;
+      line-height: 0.88;
+    }
+    .hero h1 span { color: var(--coral); }
+    .hero__intro {
+      max-width: 35rem;
+      margin: 0;
+      color: var(--warm-dim);
+      font-size: clamp(1.08rem, 1.7vw, 1.3rem);
+      line-height: 1.5;
+    }
+    .hero__range {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3) var(--space-6);
+      margin: var(--space-16) 0 0;
+      padding: var(--space-4) 0 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font: 400 0.72rem/1.4 var(--utility);
+    }
+    .hero__range span::before { content: "·"; margin-right: var(--space-2); color: var(--coral); }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: var(--space-6);
+      align-items: end;
+      padding: var(--space-8) var(--content-pad);
+      border-bottom: 1px solid var(--line);
+    }
+    .section-head p:last-child {
+      max-width: 22rem;
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+      text-align: right;
+    }
+    .project {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(7rem, 0.34fr) minmax(0, 1fr);
+      min-height: 22rem;
+      border-bottom: 1px solid var(--line);
+      scroll-margin-top: var(--space-4);
+    }
+    .project::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: var(--space-1);
+      background: var(--coral);
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: transform 500ms var(--ease);
+    }
+    .project.is-current::before { transform: scaleY(1); }
+    .project__meta {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: var(--space-8) var(--space-6) var(--space-8) var(--content-pad);
+      border-right: 1px solid var(--line);
+    }
+    .project__index { color: var(--coral); }
+    .project__body { padding: var(--space-8) var(--content-pad); }
+    .project h3 {
+      max-width: 38rem;
+      margin: 0 0 var(--space-6);
+      font-size: clamp(2rem, 4vw, 3.85rem);
+      font-weight: 500;
+      letter-spacing: -0.045em;
+      line-height: 0.98;
+    }
+    .project__body > p {
+      max-width: 39rem;
+      margin: 0;
+      color: var(--warm-dim);
+      font-size: clamp(1rem, 1.4vw, 1.12rem);
+    }
+    .project__detail {
+      display: grid;
+      grid-template-columns: 6.5rem minmax(0, 1fr);
+      gap: var(--space-4);
+      max-width: 39rem;
+      margin: var(--space-8) 0 0;
+      padding: var(--space-4) 0 0;
+      border-top: 1px solid var(--line);
+    }
+    .project__detail dt {
+      color: var(--ice);
+      font: 400 0.68rem/1.5 var(--utility);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .project__detail dd { margin: 0; color: var(--muted); font-size: 0.9rem; }
+    .text-link {
+      display: inline-block;
+      margin-top: var(--space-6);
+      color: var(--warm);
+      font: 500 0.75rem/1.4 var(--utility);
+      text-underline-offset: var(--space-2);
+      text-decoration-color: var(--coral);
+      text-decoration-thickness: 0.125rem;
+    }
+    .text-link:hover { color: var(--coral); }
+
+    .influence {
+      padding: var(--space-24) var(--content-pad);
+      border-bottom: 1px solid var(--line);
+    }
+    .influence h2 {
+      max-width: 42rem;
+      margin: var(--space-6) 0 var(--space-8);
+      font-size: clamp(2.5rem, 5.4vw, 5.25rem);
+      font-weight: 500;
+      letter-spacing: -0.055em;
+      line-height: 0.95;
+    }
+    .influence h2 span { color: var(--ice); }
+    .influence__copy {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-8);
+      max-width: 46rem;
+    }
+    .influence__copy p { margin: 0; color: var(--warm-dim); }
+
+    .closing {
+      min-height: 28rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: var(--space-16) var(--content-pad) var(--space-8);
+    }
+    .closing h2 {
+      max-width: 44rem;
+      margin: var(--space-6) 0;
+      font-size: clamp(2.6rem, 5.8vw, 5.8rem);
+      font-weight: 500;
+      letter-spacing: -0.06em;
+      line-height: 0.92;
+    }
+    .closing h2 span { color: var(--coral); }
+    .closing__note { max-width: 36rem; margin: 0; color: var(--muted); }
+    .closing__foot {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-4);
+      margin-top: var(--space-16);
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font: 400 0.68rem/1.4 var(--utility);
+      text-transform: uppercase;
+    }
+
+    .organism {
+      position: sticky;
+      top: 0;
+      align-self: start;
+      height: 100svh;
+      min-height: 32rem;
+      overflow: hidden;
+      background: var(--field-deep);
+      pointer-events: none;
+    }
+    .organism::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: var(--space-12) var(--space-12);
+      opacity: 0.16;
+      mask-image: linear-gradient(to bottom, transparent, black 24%, black 78%, transparent);
+    }
+    #particle-field { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .field-label {
+      position: absolute;
+      z-index: 1;
+      left: var(--space-6);
+      right: var(--space-6);
+      bottom: var(--space-6);
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-4);
+      color: var(--muted);
+    }
+    .field-label span:last-child { color: var(--coral); text-align: right; }
+
+    @media (max-width: 56.25rem) {
+      .page { display: block; border-inline: 0; }
+      .content { border-right: 0; background: transparent; }
+      .organism {
+        position: absolute;
+        top: 4rem;
+        right: 0;
+        width: 100%;
+        height: min(30rem, 62svh);
+        min-height: 0;
+        opacity: 0.78;
+      }
+      .organism::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, transparent 55%, var(--field));
+      }
+      .field-label { display: none; }
+      .hero {
+        position: relative;
+        z-index: 2;
+        min-height: 44rem;
+        padding-top: clamp(18rem, 48svh, 25rem);
+        background: linear-gradient(to bottom, transparent 32%, color-mix(in srgb, var(--field) 95%, transparent) 58%);
+      }
+    }
+
+    @media (max-width: 35rem) {
+      .topbar { min-height: 3.5rem; }
+      .nav { gap: var(--space-4); }
+      .nav a:first-child { display: none; }
+      .organism { top: 3.5rem; height: 22rem; }
+      .hero {
+        min-height: 42rem;
+        padding-top: 17rem;
+        padding-bottom: var(--space-8);
+      }
+      .hero h1 { font-size: clamp(3.3rem, 17vw, 4.7rem); }
+      .hero__range { margin-top: var(--space-8); }
+      .section-head { grid-template-columns: 1fr; }
+      .section-head p:last-child { text-align: left; }
+      .project { display: block; min-height: 0; }
+      .project__meta {
+        flex-direction: row;
+        padding: var(--space-6) var(--content-pad) 0;
+        border-right: 0;
+      }
+      .project__body { padding-block: var(--space-6) var(--space-12); }
+      .project h3 { font-size: clamp(2.25rem, 12vw, 3.25rem); }
+      .project__detail { grid-template-columns: 1fr; gap: var(--space-2); }
+      .influence { padding-block: var(--space-16); }
+      .influence__copy { grid-template-columns: 1fr; gap: var(--space-6); }
+      .closing__foot { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to work</a>
+  <main class="page" id="main">
+    <div class="content">
+      <header class="topbar">
+        <a class="brand" href="#intro">Leon Shi</a>
+        <nav class="nav" aria-label="Page navigation">
+          <a href="#work">Work</a>
+          <a href="#influence">Influence</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </header>
+
+      <section class="hero" id="intro" data-topology="origin">
+        <div>
+          <p class="kicker">Systems builder · Applied research</p>
+          <h1>I build systems for <span>product investment, experiments, markets, and science.</span></h1>
+          <p class="hero__intro">I own the analysis, software, and operating process from initial question through production use.</p>
+        </div>
+        <p class="hero__range" aria-label="Areas of practice">
+          <span>Executive analysis</span>
+          <span>Production software</span>
+          <span>Computational research</span>
+        </p>
+      </section>
+
+      <section id="work" aria-labelledby="work-title">
+        <header class="section-head">
+          <p class="section-label" id="work-title">Selected work</p>
+          <p>Four systems, each built around evidence that has to survive contact with a real decision.</p>
+        </header>
+
+        <article class="project" data-topology="allocation">
+          <div class="project__meta"><span>Product investment</span><span class="project__index">01</span></div>
+          <div class="project__body">
+            <h3>A recurring view of where product investment returns value.</h3>
+            <p>I own analysis for Audible’s recurring experimentation and product return-on-investment review with the Chief Product &amp; Analytics Officer. The work makes tradeoffs visible without exposing confidential dollar claims.</p>
+            <dl class="project__detail">
+              <dt>Delivered</dt>
+              <dd>A durable decision review, not a one-off report.</dd>
+            </dl>
+          </div>
+        </article>
+
+        <article class="project" data-topology="experiment">
+          <div class="project__meta"><span>Experimentation</span><span class="project__index">02</span></div>
+          <div class="project__body">
+            <h3>Synthetic experiments checked against experiments that already ran.</h3>
+            <p>I built an agent-based system that simulates how different users respond to product changes. Its output is graded against prior web experiments, so usefulness is measured against observed behavior rather than persuasive model prose.</p>
+            <dl class="project__detail">
+              <dt>Method</dt>
+              <dd>Generate responses, aggregate effects, compare with historical reads, inspect errors.</dd>
+            </dl>
+          </div>
+        </article>
+
+        <article class="project" data-topology="market">
+          <div class="project__meta"><span>Markets</span><span class="project__index">03</span></div>
+          <div class="project__body">
+            <h3>Cronos makes options research reproducible.</h3>
+            <p>I built the live product end to end: data pipelines, strategy definition, historical replay, product interface, authentication, billing, and deployment. Research decisions remain inspectable from contract selection through portfolio results.</p>
+            <dl class="project__detail">
+              <dt>Status</dt>
+              <dd>Production product, available now.</dd>
+            </dl>
+            <a class="text-link" href="https://trycronos.com" target="_blank" rel="noreferrer">Visit trycronos.com <span aria-hidden="true">↗</span></a>
+          </div>
+        </article>
+
+        <article class="project" data-topology="matter">
+          <div class="project__meta"><span>Scientific search</span><span class="project__index">04</span></div>
+          <div class="project__body">
+            <h3>Search broadly, then let physics decide what survives.</h3>
+            <p>I built a computational-physics research prototype for topological-material and dark-matter parameter search. Candidate ideas move through numerical sweeps and deterministic checks instead of asking a language model to judge its own output.</p>
+            <dl class="project__detail">
+              <dt>Boundary</dt>
+              <dd>Models propose. Numerical kernels evaluate.</dd>
+            </dl>
+          </div>
+        </article>
+      </section>
+
+      <section class="influence" id="influence" data-topology="network" aria-labelledby="influence-title">
+        <p class="section-label">Organizational influence</p>
+        <h2 id="influence-title">I build the process, then <span>teach the team to run it.</span></h2>
+        <div class="influence__copy">
+          <p>The product return-on-investment work now runs as a recurring executive review. Teams can revisit assumptions and compare allocations using the same evidence.</p>
+          <p>I have also trained teammates on agent-assisted workflows, including where review and deterministic checks belong.</p>
+        </div>
+      </section>
+
+      <footer class="closing" id="contact" data-topology="origin">
+        <div>
+          <p class="section-label">For conversations</p>
+          <h2>I’m interested in technical teams working on <span>difficult, measurable problems.</span></h2>
+          <p class="closing__note">Especially where experimentation, computation, and production delivery have to work together.</p>
+        </div>
+        <div class="closing__foot"><span>Leon Shi</span><span>Systems · experiments · research</span></div>
+      </footer>
+    </div>
+
+    <aside class="organism" aria-hidden="true">
+      <canvas id="particle-field"></canvas>
+      <div class="field-label"><span>Live system field</span><span id="field-state">Origin / connected loop</span></div>
+    </aside>
+  </main>
+
+  <script>
+    (() => {
+      const canvas = document.querySelector("#particle-field");
+      const context = canvas.getContext("2d", { alpha: true });
+      const stateLabel = document.querySelector("#field-state");
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const nodes = Array.from({ length: 108 }, (_, index) => ({
+        phase: index / 108 * Math.PI * 2,
+        x: 0,
+        y: 0,
+        targetX: 0,
+        targetY: 0
+      }));
+      const labels = {
+        origin: "Origin / connected loop",
+        allocation: "Allocation / nested cycles",
+        experiment: "Experiment / split response",
+        market: "Market / coupled paths",
+        matter: "Matter / knotted search",
+        network: "Influence / distributed network"
+      };
+      let width = 0;
+      let height = 0;
+      let active = "origin";
+      let frame = 0;
+      let pointer = { x: 0, y: 0, active: false };
+      let animationId = 0;
+
+      function position(mode, phase, time) {
+        const pulse = reducedMotion.matches ? 0 : Math.sin(time * 0.00045 + phase * 3) * 0.018;
+        let x;
+        let y;
+        if (mode === "allocation") {
+          const band = Math.sin(phase * 4) > 0 ? 0.78 : 1.08;
+          x = Math.cos(phase) * band;
+          y = Math.sin(phase) * band * 0.72;
+        } else if (mode === "experiment") {
+          x = Math.sin(phase);
+          y = Math.sin(phase * 2) * 0.62;
+        } else if (mode === "market") {
+          x = Math.sin(phase * 3 + 0.45) * 0.88;
+          y = Math.sin(phase * 2) * 0.68;
+        } else if (mode === "matter") {
+          x = (Math.sin(phase) + 2 * Math.sin(phase * 2)) / 3;
+          y = (Math.cos(phase) - 2 * Math.cos(phase * 2)) / 3;
+        } else if (mode === "network") {
+          const lobe = Math.floor((phase / (Math.PI * 2)) * 6);
+          const local = phase * 6;
+          const centerAngle = lobe / 6 * Math.PI * 2;
+          x = Math.cos(centerAngle) * 0.58 + Math.cos(local) * 0.22;
+          y = Math.sin(centerAngle) * 0.44 + Math.sin(local) * 0.18;
+        } else {
+          const radius = 0.82 + Math.sin(phase * 5) * 0.1;
+          x = Math.cos(phase) * radius;
+          y = Math.sin(phase) * radius * 0.74;
+        }
+        return { x: x * (1 + pulse), y: y * (1 + pulse) };
+      }
+
+      function resize() {
+        const rect = canvas.getBoundingClientRect();
+        const ratio = Math.min(window.devicePixelRatio || 1, 2);
+        width = rect.width;
+        height = rect.height;
+        canvas.width = Math.max(1, Math.round(width * ratio));
+        canvas.height = Math.max(1, Math.round(height * ratio));
+        context.setTransform(ratio, 0, 0, ratio, 0, 0);
+        draw(performance.now(), true, false);
+      }
+
+      function draw(time, snap = false, schedule = true) {
+        context.clearRect(0, 0, width, height);
+        const scale = Math.min(width, height) * 0.31;
+        const centerX = width * 0.5;
+        const centerY = height * 0.46;
+        const smoothing = snap ? 1 : 0.055;
+
+        nodes.forEach((node) => {
+          const target = position(active, node.phase, time);
+          node.targetX = centerX + target.x * scale;
+          node.targetY = centerY + target.y * scale;
+          node.x += (node.targetX - node.x) * smoothing;
+          node.y += (node.targetY - node.y) * smoothing;
+
+          if (pointer.active && !reducedMotion.matches) {
+            const dx = node.x - pointer.x;
+            const dy = node.y - pointer.y;
+            const distanceSquared = dx * dx + dy * dy;
+            const reach = scale * 0.68;
+            if (distanceSquared < reach * reach && distanceSquared > 1) {
+              const force = (1 - Math.sqrt(distanceSquared) / reach) * 5;
+              node.x += dx / Math.sqrt(distanceSquared) * force;
+              node.y += dy / Math.sqrt(distanceSquared) * force;
+            }
+          }
+        });
+
+        context.lineWidth = 0.8;
+        context.strokeStyle = "rgba(168, 215, 229, 0.22)";
+        context.beginPath();
+        nodes.forEach((node, index) => {
+          const next = nodes[(index + 1) % nodes.length];
+          context.moveTo(node.x, node.y);
+          context.lineTo(next.x, next.y);
+          const bridge = nodes[(index + (active === "network" ? 18 : 9)) % nodes.length];
+          if (index % 3 === 0) {
+            context.moveTo(node.x, node.y);
+            context.lineTo(bridge.x, bridge.y);
+          }
+        });
+        context.stroke();
+
+        nodes.forEach((node, index) => {
+          const accent = index % 17 === 0;
+          context.beginPath();
+          context.arc(node.x, node.y, accent ? 2.6 : 1.35, 0, Math.PI * 2);
+          context.fillStyle = accent ? "rgba(241, 132, 115, 0.95)" : "rgba(243, 238, 228, 0.72)";
+          context.fill();
+        });
+
+        if (schedule && !reducedMotion.matches) animationId = requestAnimationFrame(draw);
+      }
+
+      function setActive(mode) {
+        if (!labels[mode] || mode === active) return;
+        active = mode;
+        stateLabel.textContent = labels[mode];
+        document.querySelectorAll(".project").forEach((project) => {
+          project.classList.toggle("is-current", project.dataset.topology === mode);
+        });
+        if (reducedMotion.matches) draw(performance.now(), true);
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) setActive(visible.target.dataset.topology);
+      }, { rootMargin: "-28% 0px -42%", threshold: [0, 0.2, 0.5, 0.8] });
+
+      document.querySelectorAll("[data-topology]").forEach((section) => observer.observe(section));
+      window.addEventListener("resize", resize, { passive: true });
+
+      if (!reducedMotion.matches) {
+        window.addEventListener("pointermove", (event) => {
+          const rect = canvas.getBoundingClientRect();
+          pointer.x = event.clientX - rect.left;
+          pointer.y = event.clientY - rect.top;
+          pointer.active = pointer.x >= 0 && pointer.x <= rect.width && pointer.y >= 0 && pointer.y <= rect.height;
+        }, { passive: true });
+        window.addEventListener("pointerleave", () => { pointer.active = false; }, { passive: true });
+      }
+
+      reducedMotion.addEventListener("change", () => {
+        cancelAnimationFrame(animationId);
+        resize();
+        if (!reducedMotion.matches) animationId = requestAnimationFrame(draw);
+      });
+
+      resize();
+      if (!reducedMotion.matches) animationId = requestAnimationFrame(draw);
+    })();
+  </script>
+</body>
+</html>
