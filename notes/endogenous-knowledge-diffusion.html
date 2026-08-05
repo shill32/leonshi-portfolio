@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A working paper on limit pricing, experience curves, and endogenous knowledge diffusion in frontier AI: a product that trains its own competitors." />
+  <title>Endogenous knowledge diffusion in frontier AI — Leon Shi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=20260805-1" />
+</head>
+<body class="article-standalone">
+  <header class="site-header">
+    <a class="wordmark" href="../">Leon Shi</a>
+    <nav aria-label="Article navigation">
+      <a href="../#background">Background</a>
+      <a href="../">Museum</a>
+    </nav>
+  </header>
+
+  <main class="article">
+    <p class="article-kicker">Working paper · July 2026</p>
+    <h1>Endogenous knowledge diffusion in frontier AI</h1>
+    <p class="article-dek">A product that trains its own competitors: limit pricing, experience curves, and an endogenous leakage rate formalised as δ(D<sub>L</sub>). The paper predicts persistent concentration with leadership churn.</p>
+
+    <div class="article-body">
+      <p>Frontier AI prices look like two classical mechanisms running at once. Each lab prices just under the viability floor of the next-best model, which is limit pricing in the sense of Bain, Sylos-Labini, and Modigliani; and each prices below its own current cost to buy volume, which is experience-curve pricing in the sense of Wright, Arrow, and Spence. Stacked, these two motives are Cabral and Riordan’s increasing dominance.</p>
+      <p>The paper adds one term that no classical industry had. In AI the leader’s shipped output is the channel through which rivals learn: distillation, published technique, and open-weight replication run on the frontier model’s own deployment. Knowledge diffusion is therefore endogenous to the leader’s own volume, δ = δ(D<sub>L</sub>), δ′ &gt; 0. A product that trains its own competitors has no classical analogue in industrial organization, and the term changes both the pricing rule and the predicted market structure.</p>
+
+      <h2>The one-sentence claim</h2>
+      <p>AI will always be as cheap as the next-best competitor allows it to be, and AI is simultaneously an accelerant for breakaway winners who compound efficiency and capability advantages and price so as to extract the largest gap the next competitor’s threshold permits. Read carefully, that sentence contains two distinct economic mechanisms and one tension between them: a boundary condition on price, and a law of motion for cost, both about the gap between the leader and the marginal producer, pushing that gap in opposite directions once the leader’s volume is also what teaches the marginal producer.</p>
+
+      <h2>What is already known</h2>
+      <p>The two halves are each classical, and the combination has been studied. Limit pricing gives the boundary condition: an incumbent with a cost advantage charges just below the entry threshold of the next-best potential producer and keeps the difference. The margin it keeps is Ricardian rent, set by the marginal producer rather than by the leader’s own absolute efficiency. Experience-curve pricing gives the law of motion: unit cost falls in cumulative output, so price is partly an investment in future cost, and the optimal price sits below current marginal cost by the shadow value of an extra unit of experience. Put together, being ahead is self-reinforcing: the firm that is ahead prices more aggressively because it is ahead, wins more volume, and pulls further ahead.</p>
+
+      <h2>What is new</h2>
+      <p>In every classical setting the follower’s cost curve is exogenous to the leader’s behaviour except through the volume the leader denies it. Alcoa’s rivals had to learn to smelt aluminium themselves; Texas Instruments’ rivals had to learn to fabricate calculators themselves. In frontier AI this is false in a specific and consequential way: the leader’s deployed output is itself the training signal by which rivals close the gap. Distillation of frontier outputs, replication of published technique, and open-weight models trained on frontier-generated data all mean that the follower’s rate of catch-up is δ(D<sub>L</sub>) with δ′ &gt; 0, where D<sub>L</sub> is the leader’s own deployment volume. Serving the model is the leak.</p>
+      <p>The leakage rate has two parts: an intercept capturing leakage that does not require the leader’s traffic (published papers, researcher mobility, independent replication), and a slope capturing leakage that does (distillation of served outputs, revealed chains of thought, logprob-based imitation). This single assumption — that diffusion rises in the leader’s own deployment — is the whole paper. Everything else is either classical or a consequence.</p>
+
+      <h2>Rent is a velocity, not a position</h2>
+      <p>Combining the assumptions, the capability gap between leader and follower obeys a first-order linear ODE: the gap widens with the leader’s own learning and closes with leakage. In steady state the leader’s extractable rent equals its rate of cost descent divided by the leakage rate, rent<sub>∞</sub> = γD<sub>L</sub> / δ. Rent is therefore proportional to the leader’s velocity along the cost curve, not to its accumulated position. If descent halts, the gap and hence the rent decay exponentially, with half-life ln 2 / δ once descent stops.</p>
+      <p>The observable counterpart is that margin exists only on the current frontier tier, and every capability tier’s price collapses toward cost within months of being superseded. A lab with an enormous historical lead that stops improving earns the same rent as a lab that never led, after roughly ln 2 / δ of drift. The capital expenditure treadmill is not a strategic choice but the equilibrium requirement for holding any rent at all. Steeper learning means larger rent; faster diffusion means smaller rent, with a unit-negative elasticity so that a doubling of leakage halves steady-state rent.</p>
+
+      <h2>The leak premium</h2>
+      <p>Once diffusion is endogenous, the leader’s optimal price carries a positive leak premium on top of the learning investment. The pricing rule becomes price equals effective marginal cost minus the learning shadow value plus the leak premium, bounded above by the limit price. The leader optimally serves less volume than the learning motive alone would dictate, and the wedge increases with the elasticity of leakage with respect to volume and with the current gap.</p>
+      <p>Crucially, if the leader has instruments that reduce leakage at a cost lower than the margin sacrificed by raising price, it uses them first. This is where the model earns its keep: it explains a cluster of frontier-lab behaviour that has no other unified account. Withholding the strongest internal model from the API, rate limits on high-capability endpoints, hiding or summarising chains of thought, refusing to expose token log-probabilities, and contractual prohibitions on training competing models against outputs are not product decisions, safety decisions, or capacity decisions. They are all the same decision: buy a lower δ without giving up the volume that drives learning.</p>
+
+      <h2>Within a generation: launch cheap, hold, repeat</h2>
+      <p>The two shadow values move in opposite directions over a product generation, and the resulting path is close to bang-bang. Early in a generation the gap is small and the remaining learning horizon is long, so the learning shadow value dominates: the leader prices below its own cost and far below the limit price. This is the Spence regime. As learning is exhausted, the learning term vanishes and the limit-price constraint binds: the leader transitions to pure limit pricing, harvesting a gap that now decays at rate δ. The next frontier release resets the curve and the cycle repeats. The observed industry cadence — launch cheap or free, hold price while the tier below commoditises, then launch the next frontier — is this structure at a roughly three-quarter period.</p>
+      <p>There is also a failure mode. When several firms each price at their own learning optimum, the market price is set by the largest shadow value in the field rather than by anyone’s cost. Everyone descends the curve, nobody collects the rent, and the surplus migrates upstream to the input supplier whose own moat does not leak. This is the calculator and dynamic-memory history, and it is the paper’s natural reading of simultaneous below-cost frontier pricing today: the model layer earns the semiconductor-memory outcome unless leakage can be held low, which is precisely what the leak-premium result says the labs are trying to do.</p>
+
+      <h2>Criticality: treadmill or breakaway</h2>
+      <p>The original question — whether a leader can run away permanently — is a question about the sign of a fixed point. Allowing the growth term to exhibit superlinear compounding, as a data or capability flywheel would, the gap equation has two fixed points: zero, and an interior threshold that is unstable. Below the threshold, diffusion wins and every lead decays to zero; the industry is a treadmill in which rents accrue only to current velocity. Above the threshold, the gap grows without bound and the leader breaks away. The threshold rises with the leakage rate and falls with the strength of compounding.</p>
+      <p>This converts an argument into two measurements: do capability advantages compound superlinearly, and has any firm’s gap ever exceeded the threshold? The observation that every frontier lead so far has decayed within months implies either sublinear compounding or a leakage rate large enough to put the threshold above anything yet achieved.</p>
+
+      <h2>The full game: Markov perfect equilibrium</h2>
+      <p>The reduced form rests on a passive follower, which is the first thing a theory seminar attacks. The paper restates the mechanism as a Markov perfect equilibrium in the style of Ericson and Pakes: two firms plus a fringe, with knowledge and cash states, differentiated Bertrand logit demand, and a leak term in the follower’s capability transition that is the only place the endogenous-diffusion assumption enters. The reduced form is then derived as the limit of this game when the follower is myopic or capacity constrained, so nothing in the reduced form is discarded.</p>
+      <p>Three classical objections dissolve in this formulation. Credibility of limit pricing dissolves because price changes the state rather than relying on an empty threat. Contestability is dropped entirely — this industry has the largest sunk capital expenditure in history — and its role as an upper bound on price is played instead by an open-weight fringe whose capability is dragged up by diffusion and priced at marginal cost. And increasing dominance, an input in the reduced form, becomes a result to be checked numerically on the computed equilibrium.</p>
+
+      <h2>Separating from Sutton</h2>
+      <p>Sutton shows that with endogenous sunk costs, escalating research expenditure produces a lower bound on concentration that does not vanish as the market grows. That result must be nested, not ignored. The distinguishing prediction then falls out of the leak term, and it is sharp: in Sutton, quality ladders do not leak, so the identity of the leader is persistent; here, leakage greater than zero means the leader’s own deployment continuously re-arms the follower, so concentration persists while leadership rotates. Both models predict persistent concentration. Only this one predicts leader churn at a rate increasing in the leakage rate. Frontier leadership turnover is directly observable, so the two models are separable on existing data.</p>
+
+      <h2>Which flywheel? The financing channel</h2>
+      <p>The most dangerous objection is empirical and comes from machine learning: there may be no learning-by-doing from deployment volume at all. Capability gains come predominantly from training compute and algorithmic advance, not from cumulative served tokens. If capability is a function of research capital expenditure rather than volume, the learning channel collapses and below-cost pricing is not a learning investment at all.</p>
+      <p>The paper’s response is to concede the premise and re-route the mechanism, which makes it stronger rather than merely safer. Three channels are separated: volume to data to capability, contested and possibly small; research spend to capability, uncontested and large; and volume to revenue to investor beliefs to financing capacity to research spend, the channel that does not require any learning-by-doing. In classical industries the experience curve runs through the factory; in frontier AI it runs through the capital market. Below-cost pricing buys the share that relaxes the financing constraint that funds the training run that produces the capability. Results are reported under both specifications, so any conclusion that survives both is robust to the contested empirical question. What survives untouched in either case is the core assumption: the leak does not depend on how capability is produced, only on the fact that it is served.</p>
+
+      <h2>Identification: capability space, not cost space</h2>
+      <p>An earlier version of this argument claimed every parameter was estimable. That claim is withdrawn, deliberately and in print. Prices are equilibrium objects, so cost curves cannot be read off the prices of firms modelled as pricing strategically below cost; true inference costs are private; and learning-curve identification is cursed even with good data, conflating learning-by-doing, scale economies, and exogenous technical progress. With roughly five frontier labs over roughly five years, structural estimation of the full dynamic game is not available. The honest ambition is calibration and stylised-fact matching, stated upfront.</p>
+      <p>What is identified is the leakage rate, by moving the gap from cost space to capability space. Benchmark parity is public. The parity lag for a frontier release is the time from release until the best open-weight model matches it on a fixed evaluation suite. This lag maps directly to the leak rate, δ ≈ ln 2 / T<sub>1/2</sub>, requiring no cost data, no demand system, and no cost-side instrument. The frontier’s own improvement rate over the same suite identifies the composite learning-plus-research rate without decomposing it, which is sufficient for the criticality result because criticality depends only on the ratio to leakage. The leak channel is tested specifically by comparing parity lags across widely-served and capability-matched but access-restricted tiers, and by treating major open-weight releases as diffusion shocks and measuring the incumbent price response.</p>
+
+      <h2>Testable predictions</h2>
+      <ul class="scenario-list">
+        <li><strong>Margin on the frontier tier only.</strong> Margin exists only on the current frontier tier and decays with half-life ln 2 / δ after supersession. Refuted by persistent margin on superseded tiers.</li>
+        <li><strong>Access restrictions cluster.</strong> Restrictions cluster on the highest-capability tiers and tighten as the gap widens. Refuted if restrictions are uncorrelated with tier capability.</li>
+        <li><strong>Served tiers leak faster.</strong> Widely-served tiers show shorter benchmark-parity lags than capability-matched restricted tiers. Refuted by equal lags across tiers, i.e. δ′ = 0.</li>
+        <li><strong>Price path within a generation.</strong> Below own cost early, then flat at the fringe cap. Refuted by monotone price paths.</li>
+        <li><strong>Concentration with churn.</strong> Concentration persists while leadership rotates. Refuted by stable leader identity, favouring Sutton.</li>
+        <li><strong>Throttling under elastic leakage.</strong> If leakage is elastic in volume, leaders throttle volume below the revenue optimum. Refuted by unconstrained volume expansion.</li>
+        <li><strong>Rents migrate to the non-leaking layer.</strong> Rents migrate to the layer whose advantage does not leak. Refuted by durable model-layer margin.</li>
+      </ul>
+
+      <h2>Scope and known gaps</h2>
+      <p>The vertical layer is excluded: if upstream compute suppliers price strategically, they tax the labs’ rent through input prices, and that claim becomes an assumption rather than a prediction, because the labs’ compute contracts are not public. Multi-firm extension beyond duopoly plus fringe is left to computation. Antitrust welfare analysis is omitted entirely, since with leakage greater than zero the standard predation tests behave strangely — below-cost pricing accelerates diffusion to rivals — and deserves its own paper.</p>
+      <p>Live weaknesses are stated plainly. The learning channel is contested and the financing variant is the hedge, not a resolution. Uniqueness of the Markov perfect equilibrium is not established. The mapping from capability-space gaps to price requires a calibrated quality-to-willingness-to-pay coefficient, and that calibration is the weakest empirical link in the chain. The parity-lag measure is sensitive to benchmark saturation, so the evaluation suite must be fixed ex ante and reported with alternatives.</p>
+
+      <h2>What to do next</h2>
+      <p>In priority order: assemble the release-price-benchmark panel and estimate parity lags; run the cross-tier test of the leak assumption, since the entire contribution rests on δ′ &gt; 0 and it is the cheapest thing to falsify; compute the Markov perfect equilibrium on a coarse state grid and check whether increasing dominance survives the leak; and write the financing variant and confirm the predictions hold in both specifications. The market-structure question — treadmill or breakaway — will be written by somebody within roughly eighteen months regardless. The part of it that is defensibly novel here is narrow and should be claimed narrowly: a product that trains its own competitors, formalised as δ(D<sub>L</sub>), with the deployment-restraint predictions that follow.</p>
+      <p>This article is a readable summary of the working paper. It preserves the paper’s mechanisms and predictions without inventing results; equations are stated in prose form and the full derivations, proofs, references, and referee-disposition table remain in the PDF.</p>
+    </div>
+
+    <footer class="article-footer">
+      <p>Source</p>
+      <a href="../assets/endogenous-knowledge-diffusion-frontier-ai.pdf" target="_blank" rel="noreferrer">Read the original working paper · PDF ↗<span class="visually-hidden"> (opens in a new tab)</span></a>
+      <a href="post-ai-society.html">Read the related working essay · Post-AI society ↗</a>
+      <a href="../">Return to the museum ↗</a>
+    </footer>
+  </main>
+</body>
+</html>

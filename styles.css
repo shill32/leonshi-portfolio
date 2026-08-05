@@ -165,7 +165,7 @@ a:hover {
   top: calc(100% + 0.75rem);
   left: auto;
   right: 0;
-  width: min(32rem, calc(100vw - 2rem));
+  width: min(56rem, calc(100vw - 2rem));
   transform: none;
   margin-top: 0;
   padding: var(--space-6);
@@ -235,11 +235,11 @@ a:hover {
 
 .curatorial-note p {
   margin: 0;
+  color: var(--ink);
 }
 
 .curatorial-note p + p {
   margin-top: var(--space-4);
-  color: var(--muted);
 }
 
 .portrait {
@@ -507,9 +507,10 @@ a:hover {
 
 .background-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(22rem, 1.25fr) minmax(18rem, 1fr);
   gap: var(--space-16);
-  max-width: var(--text-measure);
+  width: min(56rem, calc(100vw - 2 * var(--page-pad)));
+  max-width: none;
   margin-left: auto;
 }
 
@@ -535,6 +536,7 @@ a:hover {
 }
 
 .background-list dt {
+  white-space: nowrap;
   font-size: 1.08rem;
   line-height: 1.25;
 }
@@ -792,6 +794,9 @@ body[data-background-placement="colophon"] .colophon .colophon-statement {
   .background-grid {
     grid-template-columns: 1fr;
     gap: var(--space-12);
+  }
+  .background-list dt {
+    white-space: normal;
   }
 
   body[data-background-placement="colophon"] .colophon .background {

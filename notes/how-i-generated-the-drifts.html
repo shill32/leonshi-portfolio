@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="How Leon Shi generated the procedural drifts in the museum with one shared WebGL renderer." />
+  <meta name="description" content="How Leon Shi used prompting, procedural constraints, and iterative evaluation to generate the museum's drifts." />
   <title>How I generated the drifts — Leon Shi</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20260728-3" />
+  <link rel="stylesheet" href="styles.css?v=20260805-1" />
 </head>
 <body data-refresh="15000">
   <header class="site-header">
@@ -21,28 +21,35 @@
   </header>
 
   <main class="article">
-    <p class="article-kicker">Technical note · July 2026</p>
+    <p class="article-kicker">Technical note · August 2026</p>
     <h1>How I generated the drifts</h1>
-    <p class="article-dek">One point field, one renderer, and a collection of drifts generated in the shader.</p>
+    <p class="article-dek">A prompting method for turning vague visual instincts into a constrained, inspectable family of moving forms.</p>
 
     <div class="article-body">
-      <p>The animation began as a lab. I wanted motion that felt drawn: dark particles on paper, enough depth to suggest volume, and no color competing with the work.</p>
+      <p>The drifts did not start as a request for “something cool.” That prompt is too unconstrained: it produces novelty without a standard for keeping or rejecting the result. I wanted a visual system that felt drawn rather than rendered, held together as a family, and could survive being looked at for a long time.</p>
 
-      <h2>The point field</h2>
-      <p>Each frame draws 262,144 points. The browser uploads one index per point; the vertex shader turns that index into a position. There are no stored meshes. Each drift is an equation evaluated on the GPU.</p>
-      <p>That constraint shaped the look. The same field can resolve as a tesseract, folded membrane, manifold, molecular chain, or amorphous body. Depth changes point size, opacity, and tone. The fragment shader softens each point into a small grain of ink.</p>
+      <h2>Prompting as specification</h2>
+      <p>I use the model to widen the candidate set, not to make the final aesthetic decision. A useful prompt names the material, the geometry, the motion, the rendering budget, and the things that are forbidden. “Black particles on paper” is a material constraint. “A recognizable silhouette with depth” is an evaluation criterion. “No gradients, no decorative color, no stored meshes” removes easy but uninteresting escapes.</p>
+      <p>The prompt is closer to a lab protocol than a mood board. I ask for families of mechanisms and parameters, then ask the model to explain what each parameter changes. That explanation matters because it turns an attractive accident into something I can reproduce, perturb, and reject.</p>
 
-      <h2>One renderer</h2>
-      <p>The lab, the hyper review, this note, and the museum all call the same renderer. A drift selected in the lab is the exact drift that appears elsewhere. Keeping one implementation eliminated inconsistencies from approximate ports.</p>
-      <p>The museum changes only presentation: it increases scale and density, then reduces both for drifts that become too heavy at that setting.</p>
+      <h2>The loop</h2>
+      <p>Each pass follows the same sequence: propose a small set of candidate forms, implement the simplest version, render it under the same camera and density limits, then compare it against the brief. The next prompt contains the failure, not just the success: too much symmetry, no readable depth, a silhouette that collapses at small size, or motion that looks like noise.</p>
+      <p>This is the part of the method that compounds. A rejected candidate becomes a sharper constraint for the next generation. The model is useful for remembering the search space and suggesting variations; the acceptance boundary stays human and explicit.</p>
 
-      <h2>Motion and input</h2>
-      <p>Scroll selects a new drift. The shader blends the old and new positions with eased interpolation, so one geometry passes through another instead of cutting between scenes. Pointer movement adds a local tangential force measured inside the canvas bounds.</p>
-      <p>The renderer pauses when the page is hidden, limits pixel density, and respects reduced-motion preferences. On smaller screens, the same field remains interactive without changing the drift itself.</p>
+      <h2>One executable framework</h2>
+      <p>Every drift is a function evaluated from a point index in the vertex shader. There are no stored meshes. The shared renderer is called by the lab, the hyper review, this note, and the museum, so a study selected in one surface is the same study elsewhere. The renderer supplies a stable coordinate system; prompting supplies candidate equations and families.</p>
+      <p>That division keeps the method honest. If a form only works because of a special screenshot, it does not belong in the collection. If a parameter cannot be described clearly enough to change, it is not yet part of the framework.</p>
 
-      <h2>Curation</h2>
-      <p>The broad archive was useful for finding families, but not every generated drift belonged in the museum. Inflating vesicles and dividing amoebas were cut. The retained collection favors structures with depth, asymmetry, and a clear silhouette.</p>
-      <p>The work is still procedural, but the selection is deliberate. The renderer supplies variation; the museum keeps only the drifts worth looking at again.</p>
+      <h2>What survives</h2>
+      <p>The retained forms tend to have three properties: a legible silhouette, enough asymmetry to avoid looking like a logo, and a depth cue that remains visible when the field is reduced. Inflating vesicles and dividing amoebas were useful failures because they made the rejection criteria concrete. The archive can be broad; the museum should be selective.</p>
+
+      <h2>Motion is another constraint</h2>
+      <p>Scroll selects a new study and the shader blends the old and new positions instead of cutting between them. Pointer input adds a local tangential force inside the canvas bounds. The renderer pauses when the page is hidden, limits pixel density, and respects reduced-motion preferences. These are not polish added after the fact; they determine which forms are acceptable in the first place.</p>
+
+      <h2>Inspiration and distance</h2>
+      <p>The broader idea of treating an AI system as a research loop rather than a one-shot generator sits in the same lineage as Andrej Karpathy’s <a href="https://x.com/karpathy/status/2015883857489522876" target="_blank" rel="noreferrer">autoresearch post on X ↗</a>. I took the transferable idea to be procedural: define a constrained objective, run many cheap attempts, preserve the record, and let evaluation decide what earns another iteration. The visual criteria and implementation here are my own.</p>
+
+      <p>The current state is therefore a result of curation as much as generation. Prompting expands the space, code makes the space executable, and repeated comparison makes the space smaller. The final drift is the residue of those three decisions.</p>
     </div>
 
     <footer class="article-footer">

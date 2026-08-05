@@ -79,7 +79,7 @@ a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
   text-transform: uppercase;
 }
 .article h1 {
-  max-width: 11ch;
+  max-width: 100%;
   margin: 0.5rem 0 1.25rem;
   font-size: clamp(3.75rem, 9vw, 7rem);
   font-weight: 400;
@@ -181,8 +181,17 @@ a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 .article-standalone .article-body,
 .article-standalone .article-footer {
   max-width: 42rem;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 0;
+  margin-right: 0;
+}
+.article-standalone .article-body {
+  text-align: left;
+}
+
+.article-standalone .essay-plate,
+.article-standalone .essay-figure {
+  margin-left: 0;
+  margin-right: 0;
 }
 
 @media (max-width: 58rem) {

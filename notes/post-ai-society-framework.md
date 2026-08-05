@@ -11,6 +11,13 @@ How do humans find meaning, identity, and psychological peace in a world where:
 - Most people will try to ascend and fail
 - Competitive drives and status needs persist
 
+
+## Research lineage
+
+This framework is my own working synthesis. It was influenced by David Shapiro's public writing on post-labor economics and by the research method he describes in [My Overpowered AI Research Stack](https://daveshap.substack.com/p/my-overpowered-ai-research-stack): use extended reasoning to form an initial view, actively search for disconfirming evidence, and synthesize a large corpus without hiding the underlying sources. Shapiro's open [Post-Labor Economics research corpus](https://daveshap.github.io/PostLaborEconomics/) is a useful example of research infrastructure that stays inspectable and revisable.
+
+The connection is methodological rather than collaborative. Shapiro has not reviewed this framework, and the mechanisms below remain hypotheses that need clearer models and evidence.
+
 ## Documents
 
 1. **economic_model.md** - The new economic structure (SWF + P2P + Elite Wages)
