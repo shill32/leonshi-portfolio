@@ -246,7 +246,7 @@
         float breathe = 1.0 + 0.035 * sin(t * 0.55 + variant);
         if (variant < 0.5) {
           float edge = 1.0 + 0.16 * sin(a * 3.0 + t * 0.23) + 0.07 * sin(a * 7.0 - t * 0.17);
-          return vec3(1.34 * r * edge * cos(a), 0.68 * r * edge * sin(a), 0.10 * sin(a * 2.0) * (1.0 - r)) * breathe;
+          return vec3(1.34 * r * edge * cos(a), 0.68 * r * edge * sin(a), 0.10 * sin(a * 2.0) * (1.0 - r)) * breathe * 0.75;
         }
         if (variant < 1.5) {
           float bud = step(0.68, c.x);
