@@ -169,7 +169,7 @@ a:hover {
   transform: none;
   margin-top: 0;
   padding: var(--space-6);
-  background: var(--paper);
+  background: color-mix(in srgb, var(--paper) 90%, transparent);
   border: var(--rule-width) solid var(--line);
   box-shadow: 0 1rem 2.5rem rgba(30, 36, 30, 0.08);
 }
@@ -670,6 +670,10 @@ body[data-background-placement="colophon"] .colophon .colophon-statement {
     transform: none;
   }
 
+  .reading-column {
+    background: color-mix(in srgb, var(--paper) 82%, transparent);
+  }
+
   .introduction {
     min-height: 0;
     padding: var(--space-16) var(--space-4) var(--space-8);
@@ -697,7 +701,13 @@ body[data-background-placement="colophon"] .colophon .colophon-statement {
   }
 
   .field-stage {
-    height: clamp(28rem, 132vw, 36rem);
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100svh;
+    opacity: 0.78;
   }
 
   .field-stage figcaption {
