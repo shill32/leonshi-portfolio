@@ -246,7 +246,7 @@
         float breathe = 1.0 + 0.035 * sin(t * 0.55 + variant);
         if (variant < 0.5) {
           float edge = 1.0 + 0.16 * sin(a * 3.0 + t * 0.23) + 0.07 * sin(a * 7.0 - t * 0.17);
-          return vec3(1.34 * r * edge * cos(a), 0.68 * r * edge * sin(a), 0.10 * sin(a * 2.0) * (1.0 - r)) * breathe * 0.75;
+          return vec3(1.34 * r * edge * cos(a), 0.68 * r * edge * sin(a), 0.10 * sin(a * 2.0) * (1.0 - r)) * breathe;
         }
         if (variant < 1.5) {
           float bud = step(0.68, c.x);
@@ -792,8 +792,9 @@
         float radius = 0.74 * (1.0
           + (0.09 + amount * 0.10) * sin(theta * 7.0 + t * (0.18 + amount * 0.20)) * sphere * sphere
           + (0.025 + amount * 0.055) * sin(y * (6.0 + variant) - theta * 2.0));
+        float archiveScale = group < 6.5 ? 0.50 : 1.0;
         return vec3(radius * sphere * cos(theta), radius * y * (0.88 + amount * 0.10),
-          radius * sphere * sin(theta));
+          radius * sphere * sin(theta)) * archiveScale;
       }
 
       vec3 fieldAt(float study, float n, float t) {
