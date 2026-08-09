@@ -130,8 +130,21 @@
       if (!visible) return;
       selectForSection(Number(visible.section.dataset.fieldState) || 0);
     }
+    function selectFromEntries(entries) {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      selectForSection(Number(visible.target.dataset.fieldState) || 0);
+    }
 
-    const observer = new IntersectionObserver(selectDominantSection, {
+    const observer = new IntersectionObserver((entries) => {
+      if (window.matchMedia("(max-width: 42rem)").matches) {
+        selectDominantSection();
+      } else {
+        selectFromEntries(entries);
+      }
+    }, {
       threshold: [0.2, 0.42, 0.68],
       rootMargin: "-12% 0px -22% 0px"
     });
