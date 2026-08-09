@@ -165,7 +165,7 @@ a:hover {
   top: calc(100% + 0.75rem);
   left: auto;
   right: 0;
-  width: min(56rem, calc(100vw - 2rem));
+  width: min(48rem, calc(100vw - 2rem));
   transform: none;
   margin-top: 0;
   padding: var(--space-6);
@@ -509,7 +509,7 @@ a:hover {
   display: grid;
   grid-template-columns: minmax(22rem, 1.25fr) minmax(18rem, 1fr);
   gap: var(--space-16);
-  width: min(56rem, calc(100vw - 2 * var(--page-pad)));
+  width: min(48rem, calc(100vw - 2 * var(--page-pad)));
   max-width: none;
   margin-left: auto;
 }

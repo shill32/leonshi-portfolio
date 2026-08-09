@@ -629,6 +629,7 @@
           else q = vec4(faceU, faceV, signA, signB);
           float section = 1.0 + 0.08 * sin((faceU + faceV) * (2.0 + variant) + t * 0.14);
           q *= extent * section;
+          q *= 0.50;
         } else if (kind < 3.5) {
           float fold = 0.58 + 0.18 * cos(v * (2.0 + mod(variant, 4.0)) + u);
           q = vec4(fold * cos(u), fold * sin(u),
@@ -670,6 +671,7 @@
             + sin(plane.y * frequency) * cos((plane.x + plane.y) * frequency);
           q = vec4(plane.x, plane.y, gyroid * 0.34,
             sin((plane.x - plane.y) * frequency + t * 0.13) * 0.42);
+          q *= 0.50;
         } else if (kind < 8.5) {
           float slice = -0.82 + amount * 1.64;
           float theta = u;
