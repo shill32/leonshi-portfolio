@@ -709,6 +709,9 @@ body[data-background-placement="colophon"] .colophon .colophon-statement {
     height: 100svh;
     opacity: 0.78;
   }
+  .field-bridge {
+    min-height: 18svh;
+  }
 
   .field-stage figcaption {
     left: var(--space-4);

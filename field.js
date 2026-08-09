@@ -115,13 +115,26 @@
       if (!reduced || transition < 1) requestRender();
     }
 
-    const observer = new IntersectionObserver((entries) => {
-      const visible = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+    function selectDominantSection() {
+      const rootTop = window.innerHeight * 0.12;
+      const rootBottom = window.innerHeight * 0.78;
+      const visible = sections
+        .map((section) => {
+          const rect = section.getBoundingClientRect();
+          const height = Math.max(rect.height, 1);
+          const visibleHeight = Math.max(0, Math.min(rect.bottom, rootBottom) - Math.max(rect.top, rootTop));
+          return { section, ratio: visibleHeight / height };
+        })
+        .filter((entry) => entry.ratio > 0.2)
+        .sort((a, b) => b.ratio - a.ratio)[0];
       if (!visible) return;
-      selectForSection(Number(visible.target.dataset.fieldState) || 0);
-    }, { threshold: [0.2, 0.42, 0.68], rootMargin: "-12% 0px -22% 0px" });
+      selectForSection(Number(visible.section.dataset.fieldState) || 0);
+    }
+
+    const observer = new IntersectionObserver(selectDominantSection, {
+      threshold: [0.2, 0.42, 0.68],
+      rootMargin: "-12% 0px -22% 0px"
+    });
     sections.forEach((section) => observer.observe(section));
 
     window.addEventListener("pointermove", (event) => {
