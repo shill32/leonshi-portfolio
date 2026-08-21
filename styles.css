@@ -179,6 +179,13 @@ a:hover {
   box-shadow: 0 1rem 2.5rem rgba(30, 36, 30, 0.08);
 }
 
+.site-header nav .contact-details .background-grid {
+  width: min(18rem, calc(100vw - 2rem));
+  padding: var(--space-4);
+  gap: var(--space-4);
+}
+
+
 .introduction {
   min-height: calc(100svh - var(--space-16));
   padding: clamp(var(--space-12), 8vh, var(--space-24)) var(--content-pad) var(--space-16);
@@ -676,6 +683,12 @@ body[data-background-placement="colophon"] .colophon .colophon-statement {
     left: auto;
     width: calc(100vw - 2 * var(--space-4));
     transform: none;
+  }
+
+  .site-header nav .contact-details .background-grid {
+    width: min(18rem, calc(100vw - 2rem));
+    padding: var(--space-4);
+    gap: var(--space-4);
   }
 
   .reading-column {
