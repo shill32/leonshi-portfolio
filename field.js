@@ -30,7 +30,6 @@
   function start() {
     const canvas = document.querySelector("#museum-field");
     const label = document.querySelector("[data-field-label]");
-    const sections = Array.from(document.querySelectorAll("[data-field-state]"));
     if (!canvas || typeof window.createMuseumStudyRenderer !== "function") return;
 
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -38,7 +37,6 @@
     const lockedStudy = FEATURED_STUDIES.includes(requested) ? requested : null;
     let activeStudy = lockedStudy ?? randomStudy();
     let fromStudy = activeStudy;
-    let activeSection = -1;
     let transitionStart = performance.now() * 0.001;
     let frame = 0;
     let lastDraw = -Infinity;
@@ -52,6 +50,8 @@
       shockDisplayScale: 0.6
     });
     if (!renderer) return;
+    const resourceAllocation = document.querySelector("#room-1");
+    let resourceAllocationTriggered = false;
 
     function randomStudy() {
       return FEATURED_STUDIES[Math.floor(Math.random() * FEATURED_STUDIES.length)];
@@ -79,16 +79,6 @@
       requestRender();
     }
 
-    function selectForSection(section) {
-      if (section === activeSection) return;
-      activeSection = section;
-      let next = nextRandomStudy();
-      if (next === activeStudy && lockedStudy === null && FEATURED_STUDIES.length > 1) {
-        const currentIndex = FEATURED_STUDIES.indexOf(activeStudy);
-        next = FEATURED_STUDIES[(currentIndex + 1) % FEATURED_STUDIES.length];
-      }
-      selectStudy(next);
-    }
 
     function requestRender() {
       if (!frame && pageVisible) frame = requestAnimationFrame(tick);
@@ -115,40 +105,20 @@
       if (!reduced || transition < 1) requestRender();
     }
 
-    function selectDominantSection() {
-      const rootTop = window.innerHeight * 0.12;
-      const rootBottom = window.innerHeight * 0.78;
-      const visible = sections
-        .map((section) => {
-          const rect = section.getBoundingClientRect();
-          const height = Math.max(rect.height, 1);
-          const visibleHeight = Math.max(0, Math.min(rect.bottom, rootBottom) - Math.max(rect.top, rootTop));
-          return { section, ratio: visibleHeight / height };
-        })
-        .filter((entry) => entry.ratio > 0.2)
-        .sort((a, b) => b.ratio - a.ratio)[0];
-      if (!visible) return;
-      selectForSection(Number(visible.section.dataset.fieldState) || 0);
+    if (resourceAllocation) {
+      const resourceAllocationObserver = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting || resourceAllocationTriggered) continue;
+          resourceAllocationTriggered = true;
+          selectStudy(nextRandomStudy());
+          resourceAllocationObserver.disconnect();
+        }
+      }, {
+        threshold: 0.2,
+        rootMargin: "-12% 0px -22% 0px"
+      });
+      resourceAllocationObserver.observe(resourceAllocation);
     }
-    function selectFromEntries(entries) {
-      const visible = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (!visible) return;
-      selectForSection(Number(visible.target.dataset.fieldState) || 0);
-    }
-
-    const observer = new IntersectionObserver((entries) => {
-      if (window.matchMedia("(max-width: 42rem)").matches) {
-        selectDominantSection();
-      } else {
-        selectFromEntries(entries);
-      }
-    }, {
-      threshold: [0.2, 0.42, 0.68],
-      rootMargin: "-12% 0px -22% 0px"
-    });
-    sections.forEach((section) => observer.observe(section));
 
     window.addEventListener("pointermove", (event) => {
       if (motionQuery.matches) return;

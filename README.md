@@ -60,9 +60,10 @@ locally), and the Hyperdimensional Field Index (`hyper/index.html` loads
   count of 512 × 512 = **262,144** particles.
 - Maintains a catalog of study families (hyperdimensional, volatility terrain,
   amorphous growth) and a set of 170 featured study indices.
-- Uses an **`IntersectionObserver`** to watch page sections marked with
-  `data-field-state` attributes and cross-fades the rendered study when the
-  dominant section changes.
+- Starts with one selected study and performs a single one-shot cross-fade
+  into the Product resource allocation study (`#room-1`) when that section
+  enters view (`IntersectionObserver`, disconnected after the fade); later
+  sections do not regenerate the drift.
 - Reacts to `pointermove` to bend the field, and pauses rendering when the tab
   is hidden (`visibilitychange`).
 - Respects `prefers-reduced-motion: reduce` and supports deep-linking to a
