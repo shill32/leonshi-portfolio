@@ -60,9 +60,9 @@
       shockDisplayScale: 0.6
     });
     if (!renderer) return;
-    const resourceAllocation = document.querySelector("#room-1");
-    let resourceAllocationTriggered = false;
-
+    const driftSections = [
+      ...document.querySelectorAll("#room-1, #room-2, #room-3, #room-4, #room-5, #colophon")
+    ];
     function randomStudy() {
       return FEATURED_STUDIES[Math.floor(Math.random() * FEATURED_STUDIES.length)];
     }
@@ -115,20 +115,28 @@
       if (!reduced || transition < 1) requestRender();
     }
 
-    if (resourceAllocation) {
-      const resourceAllocationObserver = new IntersectionObserver((entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting || resourceAllocationTriggered) continue;
-          resourceAllocationTriggered = true;
-          selectStudy(nextRandomStudy());
-          resourceAllocationObserver.disconnect();
-        }
-      }, {
-        threshold: 0.2,
-        rootMargin: "-12% 0px -22% 0px"
+    let lastDriftSection = -1;
+    let scrollFrame = 0;
+
+    function updateDriftSection() {
+      scrollFrame = 0;
+      const triggerY = window.innerHeight * 0.45;
+      let currentSection = -1;
+      driftSections.forEach((section, index) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= triggerY && rect.bottom > triggerY) currentSection = index;
       });
-      resourceAllocationObserver.observe(resourceAllocation);
+      if (currentSection <= lastDriftSection) return;
+      lastDriftSection = currentSection;
+      selectStudy(nextRandomStudy());
     }
+
+    function scheduleDriftSectionCheck() {
+      if (!scrollFrame) scrollFrame = requestAnimationFrame(updateDriftSection);
+    }
+
+    window.addEventListener("scroll", scheduleDriftSectionCheck, { passive: true });
+    window.addEventListener("resize", scheduleDriftSectionCheck, { passive: true });
 
     window.addEventListener("pointermove", (event) => {
       if (motionQuery.matches) return;
