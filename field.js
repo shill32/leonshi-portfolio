@@ -30,6 +30,16 @@
   function start() {
     const canvas = document.querySelector("#museum-field");
     const label = document.querySelector("[data-field-label]");
+
+    const navDetails = document.querySelectorAll(".site-header nav details");
+    navDetails.forEach((detail) => {
+      detail.addEventListener("toggle", () => {
+        if (!detail.open) return;
+        navDetails.forEach((other) => {
+          if (other !== detail) other.open = false;
+        });
+      });
+    });
     if (!canvas || typeof window.createMuseumStudyRenderer !== "function") return;
 
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
